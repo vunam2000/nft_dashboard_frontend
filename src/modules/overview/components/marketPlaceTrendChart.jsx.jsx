@@ -19,14 +19,14 @@ function MarketPlaceTrendChart(props) {
     const [interval, setInterval] = useState("1h")
 
     useEffect(() => {
-        props.getNftDashboardMarketCapVolume("trava_armoury", "bsc", {
+        props.getNftDashboardMarketPlaceTrend("trava_armoury", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
     }, [])
 
     useEffect(() => {
-        props.getNftDashboardMarketCapVolume("trava_armoury", "bsc", {
+        props.getNftDashboardMarketPlaceTrend("trava_armoury", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
@@ -42,21 +42,30 @@ function MarketPlaceTrendChart(props) {
         }
     }
 
-    let marketCapLogs = []
-    let tradingVolumeLogs = []
+    let sellOnSales = {}
+    let buyOnSales = {}
+    let tradingVolumeLogs = {}
 
-    if (overviewDashboard?.marketCapAndVolume) {
-        marketCapLogs = overviewDashboard.marketCapAndVolume.marketCapLogs
-        tradingVolumeLogs = overviewDashboard.marketCapAndVolume.tradingVolumeLogs
+    if (overviewDashboard?.marketPlaceTrend) {
+        sellOnSales = overviewDashboard.marketPlaceTrend.sellOnSale
+        buyOnSales = overviewDashboard.marketPlaceTrend.buyOnSale
+        tradingVolumeLogs = overviewDashboard.marketPlaceTrend.tradingVolumeLogs
     }
 
-    let marketCapLogDataCharts = []
+    let sellOnSaleDataCharts = []
+    let buyOnSaleDataCharts = []
     let tradingVolumeLogDataCharts = []
 
-    for (const timestamp in marketCapLogs) {
-        marketCapLogDataCharts.push({
+    for (const timestamp in sellOnSales) {
+        sellOnSaleDataCharts.push({
             x: parseInt(timestamp) * 1000,
-            y: marketCapLogs[timestamp].marketCap
+            y: sellOnSales[timestamp].volume
+        })
+    }
+    for (const timestamp in buyOnSales) {
+        buyOnSaleDataCharts.push({
+            x: parseInt(timestamp) * 1000,
+            y: buyOnSales[timestamp].volume
         })
     }
     for (const timestamp in tradingVolumeLogs) {
@@ -80,16 +89,9 @@ function MarketPlaceTrendChart(props) {
 
         yAxis: [{
             title: {
-                text: 'Market Cap ($)'
+                text: 'Volume'
             }
-        },
-        {
-            title: {
-                text: "Volume ($)"
-            },
-            opposite: true
-        }
-        ],
+        }],
 
         xAxis: {
             type: 'datetime'
@@ -97,13 +99,18 @@ function MarketPlaceTrendChart(props) {
 
 
         series: [{
-            name: 'Market Cap',
+            name: 'Sell on Sale',
             type: "column",
             yAxis: 0,
-            data: marketCapLogDataCharts
+            data: sellOnSaleDataCharts
         }, {
-            name: 'Volume',
-            yAxis: 1,
+            name: 'Buy on Sale',
+            type: "column",
+            yAxis: 0,
+            data: buyOnSaleDataCharts
+        }, {
+            name: 'Trading Volume',
+            yAxis: 0,
             data: tradingVolumeLogDataCharts
         }],
 
@@ -172,7 +179,7 @@ function mapState(state) {
     return { overviewDashboard };
 }
 const actions = {
-    getNftDashboardMarketCapVolume: OverviewDashboardActions.getNftDashboardMarketCapVolume
+    getNftDashboardMarketPlaceTrend: OverviewDashboardActions.getNftDashboardMarketPlaceTrend
 };
 
 export default connect(mapState, actions)(MarketPlaceTrendChart);

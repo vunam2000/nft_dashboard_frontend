@@ -13,21 +13,20 @@ import {
 
 import { OverviewDashboardActions } from '../redux/actions'
 
-function NFTMarketCapAndTradingVolumeChart(props) {
+function HolderChart(props) {
     const { overviewDashboard } = props
     const [rangeTime, setRangeTime] = useState("24h")
     const [interval, setInterval] = useState("1h")
 
     useEffect(() => {
-        props.getNftDashboardMarketCapVolume("trava_armoury", "bsc", {
+        props.getNftDashboardHolder("trava_armoury", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
     }, [])
 
     useEffect(() => {
-        console.log("5555555")
-        props.getNftDashboardMarketCapVolume("trava_armoury", "bsc", {
+        props.getNftDashboardHolder("trava_armoury", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
@@ -43,28 +42,15 @@ function NFTMarketCapAndTradingVolumeChart(props) {
         }
     }
 
-    let marketCapLogs = {}
-    let tradingVolumeLogs = {}
-
-    if (overviewDashboard?.marketCapAndVolume) {
-        marketCapLogs = overviewDashboard.marketCapAndVolume.marketCapLogs
-        tradingVolumeLogs = overviewDashboard.marketCapAndVolume.tradingVolumeLogs
-    }
-
-    let marketCapLogDataCharts = []
-    let tradingVolumeLogDataCharts = []
-
-    for (const timestamp in marketCapLogs) {
-        marketCapLogDataCharts.push({
-            x: parseInt(timestamp) * 1000,
-            y: marketCapLogs[timestamp].marketCap
-        })
-    }
-    for (const timestamp in tradingVolumeLogs) {
-        tradingVolumeLogDataCharts.push({
-            x: parseInt(timestamp) * 1000,
-            y: tradingVolumeLogs[timestamp].volume
-        })
+    let holderDataCharts = []
+    let holders = overviewDashboard?.holder
+    if (holders) {
+        for (const timestamp in holders) {
+            holderDataCharts.push({
+                x: parseInt(timestamp) * 1000,
+                y: holders[timestamp]
+            })
+        }
     }
 
     let options = {
@@ -81,16 +67,9 @@ function NFTMarketCapAndTradingVolumeChart(props) {
 
         yAxis: [{
             title: {
-                text: 'Market Cap'
+                text: 'Volume'
             }
-        },
-        {
-            title: {
-                text: "Trading Volume"
-            },
-            opposite: true
-        }
-        ],
+        }],
 
         xAxis: {
             type: 'datetime'
@@ -98,14 +77,10 @@ function NFTMarketCapAndTradingVolumeChart(props) {
 
 
         series: [{
-            name: 'Market Cap',
+            name: 'Holder',
             type: "column",
             yAxis: 0,
-            data: marketCapLogDataCharts
-        }, {
-            name: 'Volume',
-            yAxis: 1,
-            data: tradingVolumeLogDataCharts
+            data: holderDataCharts
         }],
 
         legend: {
@@ -129,7 +104,7 @@ function NFTMarketCapAndTradingVolumeChart(props) {
             <Grid item xs={12}>
                 <Card className="card-box mb-4" style={{ padding: '10px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }} style={{ padding: "0px 1%" }}>
-                        <h4>Market Cap {"&"} Volume</h4>
+                        <h4>Holder</h4>
                         <div aria-label="button group">
                             <Button
                                 color="primary"
@@ -173,7 +148,7 @@ function mapState(state) {
     return { overviewDashboard };
 }
 const actions = {
-    getNftDashboardMarketCapVolume: OverviewDashboardActions.getNftDashboardMarketCapVolume
+    getNftDashboardHolder: OverviewDashboardActions.getNftDashboardHolder
 };
 
-export default connect(mapState, actions)(NFTMarketCapAndTradingVolumeChart);
+export default connect(mapState, actions)(HolderChart);
