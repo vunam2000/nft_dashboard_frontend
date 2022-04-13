@@ -4,7 +4,9 @@ import { sendRequestToServer, filterObject } from '../../../helpers/';
 export const OverviewDashboardServices = {
     getNftDashboardMarketCapVolume,
     getNftDashboardMarketPlaceTrend,
-    getNftDashboardHolder
+    getNftDashboardHolder,
+    getNftDashboardTrader,
+    getNftDashboardAveragePrice
 }
 
 /** Get market cap and volume */
@@ -36,6 +38,28 @@ function getNftDashboardHolder(nft, chainId, data) {
     return sendRequestToServer({
         method: 'GET',
         url: `${process.env.REACT_APP_SERVER}/v1/nft/${nft}/${chainId}/history/holder`,
+        params: data
+    })
+}
+
+/** Get trader */
+function getNftDashboardTrader(nft, chainId, data) {
+    data = filterObject(data, ["range_time", "interval"])
+
+    return sendRequestToServer({
+        method: 'GET',
+        url: `${process.env.REACT_APP_SERVER}/v1/nft/${nft}/${chainId}/history/trader`,
+        params: data
+    })
+}
+
+/** Get average price */
+function getNftDashboardAveragePrice(nft, chainId, data) {
+    data = filterObject(data, ["range_time", "interval"])
+
+    return sendRequestToServer({
+        method: 'GET',
+        url: `${process.env.REACT_APP_SERVER}/v1/nft/${nft}/${chainId}/history/average-price`,
         params: data
     })
 }

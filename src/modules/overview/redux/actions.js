@@ -6,7 +6,9 @@ import { clearStorage, setCookie } from '../../../helpers';
 export const OverviewDashboardActions = {
   getNftDashboardMarketCapVolume,
   getNftDashboardMarketPlaceTrend,
-  getNftDashboardHolder
+  getNftDashboardHolder,
+  getNftDashboardTrader,
+  getNftDashboardAveragePrice
 };
 
 /** Get market cap and volume */
@@ -70,6 +72,50 @@ function getNftDashboardHolder(nft, chainId, data) {
       .catch(error => {
         dispatch({
           type: OverviewDashboardConstants.GET_DASHBOARD_HOLDER_FAILURE,
+          error: error
+        });
+      });
+  };
+}
+
+/** Get trader */
+function getNftDashboardTrader(nft, chainId, data) {
+  return dispatch => {
+    dispatch({
+      type: OverviewDashboardConstants.GET_DASHBOARD_TRADER_REQUEST
+    });
+    OverviewDashboardServices.getNftDashboardTrader(nft, chainId, data)
+      .then(res => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_DASHBOARD_TRADER_SUCCESS,
+          payload: res.data.result
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_DASHBOARD_TRADER_FAILURE,
+          error: error
+        });
+      });
+  };
+}
+
+/** Get average price */
+function getNftDashboardAveragePrice(nft, chainId, data) {
+  return dispatch => {
+    dispatch({
+      type: OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_REQUEST
+    });
+    OverviewDashboardServices.getNftDashboardAveragePrice(nft, chainId, data)
+      .then(res => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_SUCCESS,
+          payload: res.data.result
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_FAILURE,
           error: error
         });
       });

@@ -13,20 +13,20 @@ import {
 
 import { OverviewDashboardActions } from '../redux/actions'
 
-function HolderChart(props) {
+function AveragePriceChart(props) {
     const { overviewDashboard } = props
     const [rangeTime, setRangeTime] = useState("24h")
     const [interval, setInterval] = useState("1h")
 
     useEffect(() => {
-        props.getNftDashboardHolder("trava_armoury", "bsc", {
+        props.getNftDashboardAveragePrice("trava_armoury", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
     }, [])
 
     useEffect(() => {
-        props.getNftDashboardHolder("trava_armoury", "bsc", {
+        props.getNftDashboardAveragePrice("trava_armoury", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
@@ -42,13 +42,34 @@ function HolderChart(props) {
         }
     }
 
-    let holderDataCharts = []
-    let holders = overviewDashboard?.holder
-    if (holders) {
-        for (const timestamp in holders) {
-            holderDataCharts.push({
+    let coppers = []
+    let silvers = []
+    let golds = []
+    let diamonds = []
+    let crystals = []
+
+    let averagePrice = overviewDashboard?.averagePrice
+    if (averagePrice) {
+        for (const timestamp in averagePrice) {
+            coppers.push({
                 x: parseInt(timestamp) * 1000,
-                y: holders[timestamp]
+                y: averagePrice[timestamp].copper
+            })
+            silvers.push({
+                x: parseInt(timestamp) * 1000,
+                y: averagePrice[timestamp].silver
+            })
+            golds.push({
+                x: parseInt(timestamp) * 1000,
+                y: averagePrice[timestamp].gold
+            })
+            diamonds.push({
+                x: parseInt(timestamp) * 1000,
+                y: averagePrice[timestamp].diamond
+            })
+            crystals.push({
+                x: parseInt(timestamp) * 1000,
+                y: averagePrice[timestamp].crystal
             })
         }
     }
@@ -67,7 +88,7 @@ function HolderChart(props) {
 
         yAxis: [{
             title: {
-                text: 'Volume'
+                text: 'Price'
             }
         }],
 
@@ -77,10 +98,25 @@ function HolderChart(props) {
 
 
         series: [{
-            name: 'Holder',
-            type: "column",
+            name: 'Copper',
             yAxis: 0,
-            data: holderDataCharts
+            data: coppers
+        }, {
+            name: 'Silver',
+            yAxis: 0,
+            data: silvers
+        }, {
+            name: 'Gold',
+            yAxis: 0,
+            data: golds
+        }, {
+            name: 'Diamond',
+            yAxis: 0,
+            data: diamonds
+        }, {
+            name: 'Crystal',
+            yAxis: 0,
+            data: crystals
         }],
 
         legend: {
@@ -104,7 +140,7 @@ function HolderChart(props) {
             <Grid item xs={12}>
                 <Card className="card-box mb-4" style={{ padding: '10px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }} style={{ padding: "0px 1%" }}>
-                        <h4>Holders</h4>
+                        <h4>Average Price</h4>
                         <div aria-label="button group">
                             <Button
                                 color="primary"
@@ -148,7 +184,7 @@ function mapState(state) {
     return { overviewDashboard };
 }
 const actions = {
-    getNftDashboardHolder: OverviewDashboardActions.getNftDashboardHolder
+    getNftDashboardAveragePrice: OverviewDashboardActions.getNftDashboardAveragePrice
 };
 
-export default connect(mapState, actions)(HolderChart);
+export default connect(mapState, actions)(AveragePriceChart);

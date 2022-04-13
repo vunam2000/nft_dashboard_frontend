@@ -50,6 +50,38 @@ export function overviewDashboard(state = {}, action) {
                 error: true
             }
 
+        case OverviewDashboardConstants.GET_DASHBOARD_TRADER_REQUEST:
+            return {
+                ...state,
+            }
+        case OverviewDashboardConstants.GET_DASHBOARD_TRADER_SUCCESS:
+            return {
+                ...state,
+                error: false,
+                trader: action.payload
+            }
+        case OverviewDashboardConstants.GET_DASHBOARD_TRADER_SUCCESS:
+            return {
+                ...state,
+                error: true
+            }
+
+        case OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_REQUEST:
+            return {
+                ...state,
+            }
+        case OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_SUCCESS:
+            return {
+                ...state,
+                error: false,
+                averagePrice: action.payload
+            }
+        case OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_FAILURE:
+            return {
+                ...state,
+                error: true
+            }
+
         default:
             return state;
     }

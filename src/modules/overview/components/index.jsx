@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import NFTMarketCapAndTradingVolumeChart from './nftMarketCapAndVolumeChart'
 import MarketPlaceTrendChart from './marketPlaceTrendChart.jsx'
 import HolderChart from './holderChart.jsx'
+import TraderChart from './traderChart.jsx'
+import AverageChart from './averagePriceChart.jsx'
 
 function OverviewDashboard(props) {
 
@@ -12,6 +14,8 @@ function OverviewDashboard(props) {
         <NFTMarketCapAndTradingVolumeChart/>
         <MarketPlaceTrendChart/>
         <HolderChart/>
+        <TraderChart/>
+        <AverageChart/>
     </Fragment>
   );
 }

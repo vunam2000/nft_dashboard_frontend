@@ -13,20 +13,20 @@ import {
 
 import { OverviewDashboardActions } from '../redux/actions'
 
-function HolderChart(props) {
+function TraderChart(props) {
     const { overviewDashboard } = props
     const [rangeTime, setRangeTime] = useState("24h")
     const [interval, setInterval] = useState("1h")
 
     useEffect(() => {
-        props.getNftDashboardHolder("trava_armoury", "bsc", {
+        props.getNftDashboardTrader("trava_armoury", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
     }, [])
 
     useEffect(() => {
-        props.getNftDashboardHolder("trava_armoury", "bsc", {
+        props.getNftDashboardTrader("trava_armoury", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
@@ -42,15 +42,37 @@ function HolderChart(props) {
         }
     }
 
-    let holderDataCharts = []
-    let holders = overviewDashboard?.holder
-    if (holders) {
-        for (const timestamp in holders) {
-            holderDataCharts.push({
-                x: parseInt(timestamp) * 1000,
-                y: holders[timestamp]
-            })
-        }
+    let sellers = {}
+    let buyers = {}
+    let traders = {}
+
+    if (overviewDashboard?.trader) {
+        sellers = overviewDashboard.trader.seller
+        buyers = overviewDashboard.trader.buyer
+        traders = overviewDashboard.trader.all
+    }
+
+    let sellerDataCharts = []
+    let buyerDataCharts = []
+    let traderDataCharts = []
+
+    for (const timestamp in sellers) {
+        sellerDataCharts.push({
+            x: parseInt(timestamp) * 1000,
+            y: sellers[timestamp]
+        })
+    }
+    for (const timestamp in buyers) {
+        buyerDataCharts.push({
+            x: parseInt(timestamp) * 1000,
+            y: buyers[timestamp]
+        })
+    }
+    for (const timestamp in traders) {
+        traderDataCharts.push({
+            x: parseInt(timestamp) * 1000,
+            y: traders[timestamp]
+        })
     }
 
     let options = {
@@ -67,7 +89,7 @@ function HolderChart(props) {
 
         yAxis: [{
             title: {
-                text: 'Volume'
+                text: 'Number of wallet'
             }
         }],
 
@@ -77,10 +99,19 @@ function HolderChart(props) {
 
 
         series: [{
-            name: 'Holder',
+            name: 'Seller',
             type: "column",
             yAxis: 0,
-            data: holderDataCharts
+            data: sellerDataCharts
+        }, {
+            name: 'Buyer',
+            type: "column",
+            yAxis: 0,
+            data: buyerDataCharts
+        }, {
+            name: 'Trader',
+            yAxis: 0,
+            data: traderDataCharts
         }],
 
         legend: {
@@ -104,7 +135,7 @@ function HolderChart(props) {
             <Grid item xs={12}>
                 <Card className="card-box mb-4" style={{ padding: '10px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }} style={{ padding: "0px 1%" }}>
-                        <h4>Holders</h4>
+                        <h4>Traders</h4>
                         <div aria-label="button group">
                             <Button
                                 color="primary"
@@ -148,7 +179,7 @@ function mapState(state) {
     return { overviewDashboard };
 }
 const actions = {
-    getNftDashboardHolder: OverviewDashboardActions.getNftDashboardHolder
+    getNftDashboardTrader: OverviewDashboardActions.getNftDashboardTrader
 };
 
-export default connect(mapState, actions)(HolderChart);
+export default connect(mapState, actions)(TraderChart);
