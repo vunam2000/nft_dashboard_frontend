@@ -11,7 +11,9 @@ export function auth(state = {}, action) {
                 ...state,
                 isLogin: true,
                 loginError: false,
-                user: action.payload.user
+                user: {
+                    walletAddress: action.payload.address
+                }
             }
         case AuthConstants.LOGIN_FAILURE:
             return {

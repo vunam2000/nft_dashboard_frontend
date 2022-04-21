@@ -17,11 +17,11 @@ function login(data) {
     });
     AuthServices.login(data)
       .then(res => {
-        localStorage.setItem('fullname', res.data.content.user.fullname);
-        setCookie('token', res.data.content.token)
+        setCookie('token', res.data.result.jwt)
+        setCookie('refreshToken', res.data.result.refreshToken)
         dispatch({
           type: AuthConstants.LOGIN_SUCCESS,
-          payload: res.data.content
+          payload: res.data.result
         });
       })
       .catch(error => {

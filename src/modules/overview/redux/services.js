@@ -37,7 +37,7 @@ function getNftDashboardHolder(nft, chainId, data) {
 
     return sendRequestToServer({
         method: 'GET',
-        url: `${process.env.REACT_APP_SERVER}/v1/nft/${nft}/${chainId}/history/holder`,
+        url: `${process.env.REACT_APP_SERVER}/v1/nft/${nft}/${chainId}/history/amount`,
         params: data
     })
 }

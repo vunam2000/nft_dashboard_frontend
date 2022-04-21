@@ -9,11 +9,11 @@ export const AuthServices = {
 
 /** Đăng nhập */
 function login(data) {
-    data = filterObject(data, ["email", "password"])
+    data = filterObject(data, ["address", "signature"])
 
     return sendRequestToServer({
         method: 'POST',
-        url: `${process.env.REACT_APP_SERVER}/api/v1/auth/login`,
+        url: `${process.env.REACT_APP_SERVER}/v1/auth/login`,
         data: data
     })
 }

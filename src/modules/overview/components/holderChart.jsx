@@ -75,11 +75,25 @@ function HolderChart(props) {
             type: 'datetime'
         },
 
-
+        plotOptions: {
+            area: {
+                pointStart: 1940,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
         series: [{
-            name: 'Holder',
-            type: "column",
+            name: 'Amount',
             yAxis: 0,
+            type: 'area',
             data: holderDataCharts
         }],
 
@@ -104,7 +118,7 @@ function HolderChart(props) {
             <Grid item xs={12}>
                 <Card className="card-box mb-4" style={{ padding: '10px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }} style={{ padding: "0px 1%" }}>
-                        <h4>Holders</h4>
+                        <h4>Trava Knight Amount</h4>
                         <div aria-label="button group">
                             <Button
                                 color="primary"

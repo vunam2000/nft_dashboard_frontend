@@ -11,7 +11,7 @@ import {
   Button,
   Tooltip
 } from '@material-ui/core';
-
+import { ethers } from "ethers";
 import { connect } from 'react-redux';
 
 import { setSidebarToggleMobile } from '../../redux/ThemeOptions';
@@ -19,23 +19,19 @@ import projectLogo from '../../assets/images/react.svg';
 
 import HeaderLogo from '../../layout-components/HeaderLogo';
 import HeaderUserbox from '../../layout-components/HeaderUserbox';
-import LoginModal from '../../modules/auth/components/loginModal'
 
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded';
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
 import { UserActions } from '../../modules/user/redux/actions'
+import { AuthActions } from '../../modules/auth/redux/actions';
 
 import { checkLogin } from '../../helpers';
 
 const Header = props => {
-   useEffect(() => {
-    console.log("props.children", props.getCurrentUser)
+  useEffect(() => {
     if (checkLogin()) {
       props.getCurrentUser();
-      // props.getLinkByUrl({
-      //   url: window.location.pathname
-      // });
     }
   }, []);
 
@@ -46,20 +42,64 @@ const Header = props => {
     headerShadow,
     headerFixed,
     sidebarToggleMobile,
-    setSidebarToggleMobile
+    setSidebarToggleMobile,
+    auth
   } = props;
-  const [openLoginModal, setOpenLoginModal] = useState(false)
 
-  const handleLogin = () => {
-    setOpenLoginModal(true)
+  const connectWallet = () => {
+    if (window.ethereum) {
+      window.ethereum.request({ method: 'eth_requestAccounts' })
+        .then(res => {
+          // Return the address of the wallet
+          handleLogin(res[0])
+        })
+    } else {
+      alert("install metamask extension!!")
+    }
   }
-  const handleCloseLoginModal = () => {
-    setOpenLoginModal(false)
+
+  const handleLogin = async (wallet_address) => {
+    let data = await fetch(`${process.env.REACT_APP_SERVER}/v1/wallet?wallet_address=${wallet_address}`)
+      .then(response => response.json())
+      .catch(err => {
+        return handleSignup(wallet_address)
+      })
+   
+    if (data?.result) {
+      let signature = await handleSignMessage(data.result.nonce)
+      handleAuthenticate(data.result.address, signature)
+    }
+  };
+  const handleSignup = async (wallet_address) => {
+    let data = await fetch(`${process.env.REACT_APP_SERVER}/v1/wallet`, {
+      body: JSON.stringify({ 'wallet_address': wallet_address }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST'
+    }).then(response => response.json());
+    return data
+  }
+
+  const handleSignMessage = async (nonce) => {
+    try {
+      const message = `I am signing my one-time nonce: ${nonce}`
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const signature = await signer.signMessage(message);
+  
+      return signature
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
+  const handleAuthenticate = (address, signature) => {
+    props.login({ 'address': address, 'signature': signature })
   }
 
   return (
     <Fragment>
-      <LoginModal openLoginModal={openLoginModal} handleCloseLoginModal={handleCloseLoginModal}/>
       <AppBar
         color="secondary"
         className={clsx('app-header', {})}
@@ -97,7 +137,7 @@ const Header = props => {
               <Box className="d-flex align-items-center">
                 <Button
                   className="m-1" variant="contained" color="default" size="small"
-                  onClick={() => handleLogin()}>
+                  onClick={() => connectWallet()}>
                   Connect Wallet
                 </Button>
               </Box>
@@ -126,12 +166,14 @@ const Header = props => {
 const mapStateToProps = state => ({
   headerShadow: state.ThemeOptions.headerShadow,
   headerFixed: state.ThemeOptions.headerFixed,
-  sidebarToggleMobile: state.ThemeOptions.sidebarToggleMobile
+  sidebarToggleMobile: state.ThemeOptions.sidebarToggleMobile,
+  auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({
   setSidebarToggleMobile: enable => dispatch(setSidebarToggleMobile(enable)),
-  getCurrentUser: () => dispatch(UserActions.getCurrentUser())
+  getCurrentUser: () => dispatch(UserActions.getCurrentUser()),
+  login: (data) => dispatch(AuthActions.login(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
