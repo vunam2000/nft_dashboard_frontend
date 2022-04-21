@@ -45,8 +45,7 @@
     "react-scripts": "3.4.0",
     "redux": "4.0.5",
     "redux-thunk": "^2.4.1",
-    "sass-vars-to-js-loader": "^2.1.1",
-    "web3": "^1.7.3"
+    "sass-vars-to-js-loader": "^2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
