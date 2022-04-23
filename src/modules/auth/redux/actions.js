@@ -17,6 +17,7 @@ function login(data) {
     });
     AuthServices.login(data)
       .then(res => {
+        localStorage.setItem("address", res.data.result.address)
         setCookie('token', res.data.result.jwt)
         setCookie('refreshToken', res.data.result.refreshToken)
         dispatch({

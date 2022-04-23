@@ -1,5 +1,5 @@
 export const clearStorage = () => {
-    localStorage.removeItem('fullname');
+    localStorage.removeItem('address');
     return true;
 };
 

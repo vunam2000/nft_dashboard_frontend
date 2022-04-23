@@ -33,7 +33,7 @@ function HeaderUserbox(props) {
   }
 
   let currentUser = user?.currentUser;
-  
+  let walletAddress = localStorage.getItem('address')
   return (
     <Fragment>
       <Button
@@ -43,9 +43,11 @@ function HeaderUserbox(props) {
         <Box>
           <Avatar sizes="44" alt="Emma Taylor" src={currentUser?.avatar} />
         </Box>
-        <div className="d-xl-block pl-2">
-          <div className="font-weight-bold pt-1 line-height-3">{currentUser?.fullname?.split(" ")?.[0]}</div>
-        </div>
+        {walletAddress &&
+          <div className="d-xl-block pl-2">
+            <div className="font-weight-bold pt-1 line-height-3">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</div>
+          </div>
+        }
       </Button>
 
       <Menu

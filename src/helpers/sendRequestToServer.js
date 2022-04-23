@@ -16,7 +16,6 @@ export function sendRequestToServer(req) {
             params: params
         })
         .then(response => {
-            console.log(response)
             return response;
         })
         .catch(err => {
