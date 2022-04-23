@@ -6,13 +6,15 @@ import { user } from '../modules/user/redux/reducers'
 import { auth } from '../modules/auth/redux/reducers'
 
 import { overviewDashboard } from '../modules/overview/redux/reducers'
+import { userAnalysis } from '../modules/user-analysis/redux/reducers'
 
 const appReducer = combineReducers({
     ThemeOptions,
     auth, 
     user,
     
-    overviewDashboard
+    overviewDashboard,
+    userAnalysis
 })
 
 const rootReducer = (state, action) => {

@@ -4,67 +4,63 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import {
     Grid,
-    ButtonGroup,
     Card,
     Button,
     Box,
-    ListItem
 } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions'
+import { UserAnalysisActions } from '../redux/actions'
 
-function NFTMarketCapAndTradingVolumeChart(props) {
-    const { overviewDashboard } = props
-    const [rangeTime, setRangeTime] = useState("24h")
-    const [interval, setInterval] = useState("1h")
+function TradingOfWalletChart(props) {
+    const { userAnalysis } = props
+    const [rangeTime, setRangeTime] = useState("30d")
 
     useEffect(() => {
-        props.getNftDashboardMarketCapVolume("trava_armoury", "bsc", {
+        props.getTradingOfWallet({
             range_time: rangeTime,
-            interval: interval
         })
     }, [])
 
     useEffect(() => {
-        props.getNftDashboardMarketCapVolume("trava_armoury", "bsc", {
+        props.getTradingOfWallet({
             range_time: rangeTime,
-            interval: interval
         })
-    }, [rangeTime, interval])
+    }, [rangeTime])
 
     const handleRangeTime = (_rangeTime) => {
         setRangeTime(_rangeTime)
-
-        if (_rangeTime == "24h") {
-            setInterval("1h")
-        } else if (_rangeTime == "3m") {
-            setInterval("7d")
-        } else {
-            setInterval("24h")
-        }
     }
 
-    let marketCapLogs = {}
+    let sellOnSales = {}
+    let buyOnSales = {}
     let tradingVolumeLogs = {}
 
-    if (overviewDashboard?.marketCapAndVolume) {
-        marketCapLogs = overviewDashboard.marketCapAndVolume.marketCapLogs
-        tradingVolumeLogs = overviewDashboard.marketCapAndVolume.tradingVolumeLogs
+    if (userAnalysis?.tradingOfWallet) {
+        sellOnSales = userAnalysis.tradingOfWallet.sellOnSale
+        buyOnSales = userAnalysis.tradingOfWallet.buyOnSale
+        tradingVolumeLogs = userAnalysis.tradingOfWallet.tradingVolumeLogs
     }
 
-    let marketCapLogDataCharts = []
+    let sellOnSaleDataCharts = []
+    let buyOnSaleDataCharts = []
     let tradingVolumeLogDataCharts = []
 
-    for (const timestamp in marketCapLogs) {
-        marketCapLogDataCharts.push({
+    for (const timestamp in sellOnSales) {
+        sellOnSaleDataCharts.push({
             x: parseInt(timestamp) * 1000,
-            y: marketCapLogs[timestamp].marketCap
+            y: sellOnSales[timestamp]
+        })
+    }
+    for (const timestamp in buyOnSales) {
+        buyOnSaleDataCharts.push({
+            x: parseInt(timestamp) * 1000,
+            y: buyOnSales[timestamp]
         })
     }
     for (const timestamp in tradingVolumeLogs) {
         tradingVolumeLogDataCharts.push({
             x: parseInt(timestamp) * 1000,
-            y: tradingVolumeLogs[timestamp].volume
+            y: tradingVolumeLogs[timestamp]
         })
     }
 
@@ -82,45 +78,28 @@ function NFTMarketCapAndTradingVolumeChart(props) {
 
         yAxis: [{
             title: {
-                text: 'Market Cap'
+                text: 'Volume'
             }
-        },
-        {
-            title: {
-                text: "Trading Volume"
-            },
-            opposite: true
-        }
-        ],
+        }],
 
         xAxis: {
             type: 'datetime'
         },
 
-        plotOptions: {
-            line: {
-                pointStart: 1940,
-                marker: {
-                    enabled: false,
-                    symbol: 'circle',
-                    radius: 2,
-                    states: {
-                        hover: {
-                            enabled: true
-                        }
-                    }
-                }
-            }
-        },
 
         series: [{
-            name: 'Market Cap',
+            name: 'Sell on Sale',
             type: "column",
             yAxis: 0,
-            data: marketCapLogDataCharts
+            data: sellOnSaleDataCharts
         }, {
-            name: 'Volume',
-            yAxis: 1,
+            name: 'Buy on Sale',
+            type: "column",
+            yAxis: 0,
+            data: buyOnSaleDataCharts
+        }, {
+            name: 'Trading Volume',
+            yAxis: 0,
             data: tradingVolumeLogDataCharts
         }],
 
@@ -134,7 +113,6 @@ function NFTMarketCapAndTradingVolumeChart(props) {
     }
 
     let rangeTimes = {
-        "24h": '24h',
         "7d": '7d',
         "30d": '30d',
         "3m": '3m',
@@ -145,15 +123,8 @@ function NFTMarketCapAndTradingVolumeChart(props) {
             <Grid item xs={12}>
                 <Card className="card-box mb-4" style={{ padding: '10px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }} style={{ padding: "0px 1%" }}>
-                        <h4>Market Cap {"&"} Volume</h4>
+                        <h4>Trading Of Wallet</h4>
                         <div aria-label="button group">
-                            <Button
-                                color="primary"
-                                variant={rangeTime == rangeTimes['24h'] ? "contained" : "text"}
-                                onClick={() => handleRangeTime(rangeTimes['24h'])}
-                            >
-                                {rangeTimes['24h'].toUpperCase()}
-                            </Button>
                             <Button
                                 color="primary"
                                 variant={rangeTime == rangeTimes['7d'] ? "contained" : "text"}
@@ -185,11 +156,11 @@ function NFTMarketCapAndTradingVolumeChart(props) {
 }
 
 function mapState(state) {
-    const { overviewDashboard } = state;
-    return { overviewDashboard };
+    const { userAnalysis } = state;
+    return { userAnalysis };
 }
 const actions = {
-    getNftDashboardMarketCapVolume: OverviewDashboardActions.getNftDashboardMarketCapVolume
+    getTradingOfWallet: UserAnalysisActions.getTradingOfWallet
 };
 
-export default connect(mapState, actions)(NFTMarketCapAndTradingVolumeChart);
+export default connect(mapState, actions)(TradingOfWalletChart);

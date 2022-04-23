@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import { checkLogin, checkRole } from '../helpers'
+import Page from './page';
 
 const PrivateRoute = ({ user, roles, component: Component, ...rest }) => {
     
@@ -15,7 +16,11 @@ const PrivateRoute = ({ user, roles, component: Component, ...rest }) => {
 
             if (checkLogin()) {
                 if (checkRole(roles, userRoles)) {
-                    return <Component {...props}/>
+                    return (
+                        <Page title={rest.title}>
+                            <Component {...props} />
+                        </Page>
+                    )
                 } else {
                     if (user) {
                         return <Redirect to="/404" />

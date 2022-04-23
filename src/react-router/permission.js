@@ -11,6 +11,12 @@ const PermissionRoute = {
         roles: "@all"
     },
 
+    USER_ANALYSIS: {
+        path: "/user-analysis",
+        title: "User Analysis",
+        roles: "@all"
+    },
+
     NOT_FOUND: {
         path: "/404",
         title: "Not Found"

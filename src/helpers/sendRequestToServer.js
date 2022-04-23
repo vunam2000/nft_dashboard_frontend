@@ -11,7 +11,7 @@ export function sendRequestToServer(req) {
             data: data,
             withCredentials: true,
             headers: {
-                'jwt': Cookies.get('token')
+                'Authorization': Cookies.get('token')
             },
             params: params
         })

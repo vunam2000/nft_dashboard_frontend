@@ -28,7 +28,13 @@ export default [
         "icon": DashboardTwoToneIcon,
         "to": PermissionRoute.OVERVIEW.path,
         "roles": PermissionRoute.OVERVIEW.roles
+      },
+      {
+        "label": PermissionRoute.USER_ANALYSIS.title,
+        "icon": DashboardTwoToneIcon,
+        "to": PermissionRoute.USER_ANALYSIS.path,
+        "roles": PermissionRoute.USER_ANALYSIS.roles
       }
     ]
-  }
+  },
 ]

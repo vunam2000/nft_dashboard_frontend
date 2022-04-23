@@ -21,6 +21,7 @@ import { PermissionRoute, AllRoute } from './permission';
 const NotFound = lazy(() => import('../modules/not-found'))
 
 const OverviewDashboard = lazy(() => import('../modules/overview/components'));
+const UserAnalysis = lazy(() => import('../modules/user-analysis/components'));
 
 const Routes = props => {
   const { user } = props;
@@ -74,6 +75,11 @@ const Routes = props => {
                       path={PermissionRoute.OVERVIEW.path}
                       title={PermissionRoute.OVERVIEW.title}
                       component={OverviewDashboard}
+                    />
+                    <PublicRoute
+                      path={PermissionRoute.USER_ANALYSIS.path}
+                      title={PermissionRoute.USER_ANALYSIS.title}
+                      component={UserAnalysis}
                     />
                     <PublicRoute
                       path={PermissionRoute.NOT_FOUND.path}
