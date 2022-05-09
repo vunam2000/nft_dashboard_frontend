@@ -8,18 +8,21 @@ import HolderChart from './holderChart.jsx'
 import TraderChart from './traderChart.jsx'
 import AverageChart from './averagePriceChart.jsx'
 import KnightStakingChart from './knightStakingChart'
+import BumbleChart from './bumbleChart'
 
 function OverviewDashboard(props) {
 
   return (
     <Fragment>
         <NFTStats/>
-        <NFTMarketCapAndTradingVolumeChart/>
+        <BumbleChart/>
+        {/* <NetworkChart/> */}
+        {/* <NFTMarketCapAndTradingVolumeChart/>
         <MarketPlaceTrendChart/>
         <HolderChart/>
         <TraderChart/>
         <AverageChart/>
-        <KnightStakingChart/>
+        <KnightStakingChart/> */}
     </Fragment>
   );
 }
