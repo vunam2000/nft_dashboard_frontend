@@ -8,7 +8,8 @@ export const OverviewDashboardActions = {
   getNftDashboardMarketPlaceTrend,
   getNftDashboardHolder,
   getNftDashboardTrader,
-  getNftDashboardAveragePrice
+  getNftDashboardAveragePrice,
+  getNftDashboardStaking
 };
 
 /** Get market cap and volume */
@@ -116,6 +117,29 @@ function getNftDashboardAveragePrice(nft, chainId, data) {
       .catch(error => {
         dispatch({
           type: OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_FAILURE,
+          error: error
+        });
+      });
+  };
+}
+
+
+/** Get staking */
+function getNftDashboardStaking(nft, chainId, data) {
+  return dispatch => {
+    dispatch({
+      type: OverviewDashboardConstants.GET_DASHBOARD_STAKING_REQUEST
+    });
+    OverviewDashboardServices.getNftDashboardStaking(nft, chainId, data)
+      .then(res => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_DASHBOARD_STAKING_SUCCESS,
+          payload: res.data.result
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_DASHBOARD_STAKING_FAILURE,
           error: error
         });
       });

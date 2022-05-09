@@ -35,10 +35,12 @@ function AveragePriceChart(props) {
     const handleRangeTime = (_rangeTime) => {
         setRangeTime(_rangeTime)
 
-        if (_rangeTime == "24h") {
-            setInterval("1h")
-        } else {
+        if (_rangeTime == "30d") {
             setInterval("24h")
+        } else if (_rangeTime == "3m") {
+            setInterval("7d")
+        } else {
+            setInterval("1h")
         }
     }
 
@@ -95,7 +97,21 @@ function AveragePriceChart(props) {
         xAxis: {
             type: 'datetime'
         },
-
+        plotOptions: {
+            line: {
+                pointStart: 1940,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
 
         series: [{
             name: 'Copper',

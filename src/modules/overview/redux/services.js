@@ -6,7 +6,8 @@ export const OverviewDashboardServices = {
     getNftDashboardMarketPlaceTrend,
     getNftDashboardHolder,
     getNftDashboardTrader,
-    getNftDashboardAveragePrice
+    getNftDashboardAveragePrice,
+    getNftDashboardStaking
 }
 
 /** Get market cap and volume */
@@ -60,6 +61,28 @@ function getNftDashboardAveragePrice(nft, chainId, data) {
     return sendRequestToServer({
         method: 'GET',
         url: `${process.env.REACT_APP_SERVER}/v1/nft/${nft}/${chainId}/history/average-price`,
+        params: data
+    })
+}
+
+/** Get staking */
+function getNftDashboardStaking(nft, chainId, data) {
+    data = filterObject(data, ["range_time", "interval"])
+
+    return sendRequestToServer({
+        method: 'GET',
+        url: `${process.env.REACT_APP_SERVER}/v1/nft/${nft}/${chainId}/history/staking`,
+        params: data
+    })
+}
+
+/** Get NFT stats */
+function getNftStats(nft, chainId, data) {
+    data = filterObject(data, ["range_time"])
+
+    return sendRequestToServer({
+        method: 'GET',
+        url: `${process.env.REACT_APP_SERVER}/v1/dashboard/nft/${nft}/${chainId}/stats`,
         params: data
     })
 }

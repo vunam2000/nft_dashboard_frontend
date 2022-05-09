@@ -34,7 +34,7 @@ function UserAnalysis(props) {
         : <Grid container spacing={3}>
           <Grid item xs={12}>
             <Card className="card-box mb-4" style={{ padding: '10px', textAlign: 'center' }}>
-              <WarningIcon style={{ color: "#aca10ade" }}/>
+              <WarningIcon style={{ color: "#aca10ade" }} />
               <div>Please Connect Wallet !</div>
             </Card>
           </Grid>

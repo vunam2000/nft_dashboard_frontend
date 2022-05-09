@@ -82,6 +82,22 @@ export function overviewDashboard(state = {}, action) {
                 error: true
             }
 
+        case OverviewDashboardConstants.GET_DASHBOARD_STAKING_REQUEST:
+            return {
+                ...state,
+            }
+        case OverviewDashboardConstants.GET_DASHBOARD_STAKING_SUCCESS:
+            return {
+                ...state,
+                error: false,
+                staking: action.payload
+            }
+        case OverviewDashboardConstants.GET_DASHBOARD_STAKING_FAILURE:
+            return {
+                ...state,
+                error: true
+            }
+            
         default:
             return state;
     }

@@ -35,11 +35,13 @@ function HolderChart(props) {
     const handleRangeTime = (_rangeTime) => {
         setRangeTime(_rangeTime)
 
-        if (_rangeTime == "24h") {
-            setInterval("1h")
-        } else {
+        if (_rangeTime == "30d") {
             setInterval("24h")
-        }
+        } else if (_rangeTime == "3m") {
+            setInterval("7d")
+        } else {
+            setInterval("1h")
+        } 
     }
 
     let holderDataCharts = []

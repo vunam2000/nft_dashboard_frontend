@@ -13,20 +13,20 @@ import {
 
 import { OverviewDashboardActions } from '../redux/actions'
 
-function NFTMarketCapAndTradingVolumeChart(props) {
+function KnightStakingChart(props) {
     const { overviewDashboard } = props
     const [rangeTime, setRangeTime] = useState("24h")
     const [interval, setInterval] = useState("1h")
 
     useEffect(() => {
-        props.getNftDashboardMarketCapVolume("trava_armoury", "bsc", {
+        props.getNftDashboardStaking("trava_knight", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
     }, [])
 
     useEffect(() => {
-        props.getNftDashboardMarketCapVolume("trava_armoury", "bsc", {
+        props.getNftDashboardStaking("trava_knight", "bsc", {
             range_time: rangeTime,
             interval: interval
         })
@@ -44,28 +44,41 @@ function NFTMarketCapAndTradingVolumeChart(props) {
         }
     }
 
-    let marketCapLogs = {}
-    let tradingVolumeLogs = {}
+    let allVault = []
+    let coppers = []
+    let silvers = []
+    let golds = []
+    let diamonds = []
+    let crystals = []
 
-    if (overviewDashboard?.marketCapAndVolume) {
-        marketCapLogs = overviewDashboard.marketCapAndVolume.marketCapLogs
-        tradingVolumeLogs = overviewDashboard.marketCapAndVolume.tradingVolumeLogs
-    }
-
-    let marketCapLogDataCharts = []
-    let tradingVolumeLogDataCharts = []
-
-    for (const timestamp in marketCapLogs) {
-        marketCapLogDataCharts.push({
-            x: parseInt(timestamp) * 1000,
-            y: marketCapLogs[timestamp].marketCap
-        })
-    }
-    for (const timestamp in tradingVolumeLogs) {
-        tradingVolumeLogDataCharts.push({
-            x: parseInt(timestamp) * 1000,
-            y: tradingVolumeLogs[timestamp].volume
-        })
+    let staking = overviewDashboard?.staking
+    if (staking) {
+        for (const timestamp in staking) {
+            allVault.push({
+                x: parseInt(timestamp) * 1000,
+                y: staking[timestamp].all?.nftCount
+            })
+            coppers.push({
+                x: parseInt(timestamp) * 1000,
+                y: staking[timestamp].copper?.nftCount
+            })
+            silvers.push({
+                x: parseInt(timestamp) * 1000,
+                y: staking[timestamp].silver?.nftCount
+            })
+            golds.push({
+                x: parseInt(timestamp) * 1000,
+                y: staking[timestamp].gold?.nftCount
+            })
+            diamonds.push({
+                x: parseInt(timestamp) * 1000,
+                y: staking[timestamp].diamond?.nftCount
+            })
+            crystals.push({
+                x: parseInt(timestamp) * 1000,
+                y: staking[timestamp].crystal?.nftCount
+            })
+        }
     }
 
     let options = {
@@ -82,23 +95,15 @@ function NFTMarketCapAndTradingVolumeChart(props) {
 
         yAxis: [{
             title: {
-                text: 'Market Cap'
+                text: 'Price'
             }
-        },
-        {
-            title: {
-                text: "Trading Volume"
-            },
-            opposite: true
-        }
-        ],
+        }],
 
         xAxis: {
             type: 'datetime'
         },
-
         plotOptions: {
-            spline: {
+            line: {
                 pointStart: 1940,
                 marker: {
                     enabled: false,
@@ -114,15 +119,25 @@ function NFTMarketCapAndTradingVolumeChart(props) {
         },
 
         series: [{
-            name: 'Market Cap',
-            type: "column",
+            name: 'Copper',
             yAxis: 0,
-            data: marketCapLogDataCharts
+            data: coppers
         }, {
-            name: 'Volume',
-            yAxis: 1,
-            type: "spline",
-            data: tradingVolumeLogDataCharts
+            name: 'Silver',
+            yAxis: 0,
+            data: silvers
+        }, {
+            name: 'Gold',
+            yAxis: 0,
+            data: golds
+        }, {
+            name: 'Diamond',
+            yAxis: 0,
+            data: diamonds
+        }, {
+            name: 'Crystal',
+            yAxis: 0,
+            data: crystals
         }],
 
         legend: {
@@ -146,7 +161,7 @@ function NFTMarketCapAndTradingVolumeChart(props) {
             <Grid item xs={12}>
                 <Card className="card-box mb-4" style={{ padding: '10px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }} style={{ padding: "0px 1%" }}>
-                        <h4>Market Cap {"&"} Volume</h4>
+                        <h4>Knight Staking</h4>
                         <div aria-label="button group">
                             <Button
                                 color="primary"
@@ -190,7 +205,7 @@ function mapState(state) {
     return { overviewDashboard };
 }
 const actions = {
-    getNftDashboardMarketCapVolume: OverviewDashboardActions.getNftDashboardMarketCapVolume
+    getNftDashboardStaking: OverviewDashboardActions.getNftDashboardStaking
 };
 
-export default connect(mapState, actions)(NFTMarketCapAndTradingVolumeChart);
+export default connect(mapState, actions)(KnightStakingChart);
