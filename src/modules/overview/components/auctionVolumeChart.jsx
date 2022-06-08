@@ -1,5 +1,5 @@
-/* eslint-disable no-implied-eval */
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-implied-eval */
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Highcharts from 'highcharts';
@@ -8,20 +8,20 @@ import { Grid, Card, Button, Box } from '@material-ui/core';
 
 import { OverviewDashboardActions } from '../redux/actions';
 
-function NFTMarketCapAndTradingVolumeChart(props) {
+function AuctionVolumeChart(props) {
   const { overviewDashboard } = props;
   const [rangeTime, setRangeTime] = useState('24h');
   const [interval, setInterval] = useState('1h');
 
-  useEffect(() => {
-    props.getNftDashboardMarketCapVolume('trava_armoury', 'bsc', {
-      range_time: rangeTime,
-      interval: interval
-    });
-  }, []);
+  //   useEffect(() => {
+  //     props.getAuctionVolume('trava_armoury', 'bsc', {
+  //       range_time: rangeTime,
+  //       interval: interval
+  //     });
+  //   }, []);
 
   useEffect(() => {
-    props.getNftDashboardMarketCapVolume('trava_armoury', 'bsc', {
+    props.getAuctionVolume('trava_armoury', 'bsc', {
       range_time: rangeTime,
       interval: interval
     });
@@ -39,28 +39,15 @@ function NFTMarketCapAndTradingVolumeChart(props) {
     }
   };
 
-  let marketCapLogs = {};
-  let tradingVolumeLogs = {};
-
-  if (overviewDashboard?.marketCapAndVolume) {
-    marketCapLogs = overviewDashboard.marketCapAndVolume.marketCapLogs;
-    tradingVolumeLogs = overviewDashboard.marketCapAndVolume.tradingVolumeLogs;
-  }
-
-  let marketCapLogDataCharts = [];
-  let tradingVolumeLogDataCharts = [];
-
-  for (const timestamp in marketCapLogs) {
-    marketCapLogDataCharts.push({
-      x: parseInt(timestamp) * 1000,
-      y: marketCapLogs[timestamp].marketCap
-    });
-  }
-  for (const timestamp in tradingVolumeLogs) {
-    tradingVolumeLogDataCharts.push({
-      x: parseInt(timestamp) * 1000,
-      y: tradingVolumeLogs[timestamp].volume
-    });
+  let holderDataCharts = [];
+  let holders = overviewDashboard?.holder;
+  if (holders) {
+    for (const timestamp in holders) {
+      holderDataCharts.push({
+        x: parseInt(timestamp) * 1000,
+        y: holders[timestamp]
+      });
+    }
   }
 
   let options = {
@@ -78,14 +65,8 @@ function NFTMarketCapAndTradingVolumeChart(props) {
     yAxis: [
       {
         title: {
-          text: 'Market Cap'
+          text: 'Volume'
         }
-      },
-      {
-        title: {
-          text: 'Trading Volume'
-        },
-        opposite: true
       }
     ],
 
@@ -94,7 +75,7 @@ function NFTMarketCapAndTradingVolumeChart(props) {
     },
 
     plotOptions: {
-      spline: {
+      area: {
         pointStart: 1940,
         marker: {
           enabled: false,
@@ -108,19 +89,12 @@ function NFTMarketCapAndTradingVolumeChart(props) {
         }
       }
     },
-
     series: [
       {
-        name: 'Market Cap',
-        type: 'column',
+        name: 'Amount',
         yAxis: 0,
-        data: marketCapLogDataCharts
-      },
-      {
-        name: 'Volume',
-        yAxis: 1,
-        type: 'spline',
-        data: tradingVolumeLogDataCharts
+        type: 'column',
+        data: holderDataCharts
       }
     ],
 
@@ -147,7 +121,7 @@ function NFTMarketCapAndTradingVolumeChart(props) {
           <Box
             sx={{ display: 'flex', justifyContent: 'space-between' }}
             style={{ padding: '0px 1%' }}>
-            <h4>Market Cap {'&'} Volume</h4>
+            <h4>Auction Volume</h4>
             <div aria-label="button group">
               <Button
                 color="primary"
@@ -187,8 +161,7 @@ function mapState(state) {
   return { overviewDashboard };
 }
 const actions = {
-  getNftDashboardMarketCapVolume:
-    OverviewDashboardActions.getNftDashboardMarketCapVolume
+  getAuctionVolume: OverviewDashboardActions.getAuctionVolume
 };
 
-export default connect(mapState, actions)(NFTMarketCapAndTradingVolumeChart);
+export default connect(mapState, actions)(AuctionVolumeChart);

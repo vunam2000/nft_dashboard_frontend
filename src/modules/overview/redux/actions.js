@@ -1,15 +1,16 @@
 import { OverviewDashboardServices } from './services';
 import { OverviewDashboardConstants } from './constants';
 
-import { clearStorage, setCookie } from '../../../helpers';
-
 export const OverviewDashboardActions = {
   getNftDashboardMarketCapVolume,
   getNftDashboardMarketPlaceTrend,
   getNftDashboardHolder,
   getNftDashboardTrader,
   getNftDashboardAveragePrice,
-  getNftDashboardStaking
+  getNftDashboardStaking,
+  getNftStats,
+  getAuctionParticipate,
+  getAuctionVolume
 };
 
 /** Get market cap and volume */
@@ -21,13 +22,15 @@ function getNftDashboardMarketCapVolume(nft, chainId, data) {
     OverviewDashboardServices.getNftDashboardMarketCapVolume(nft, chainId, data)
       .then(res => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_SUCCESS,
+          type:
+            OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_SUCCESS,
           payload: res.data.result
         });
       })
       .catch(error => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_FAILURE,
+          type:
+            OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_FAILURE,
           error: error
         });
       });
@@ -40,22 +43,27 @@ function getNftDashboardMarketPlaceTrend(nft, chainId, data) {
     dispatch({
       type: OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_REQUEST
     });
-    OverviewDashboardServices.getNftDashboardMarketPlaceTrend(nft, chainId, data)
+    OverviewDashboardServices.getNftDashboardMarketPlaceTrend(
+      nft,
+      chainId,
+      data
+    )
       .then(res => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_SUCCESS,
+          type:
+            OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_SUCCESS,
           payload: res.data.result
         });
       })
       .catch(error => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_FAILURE,
+          type:
+            OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_FAILURE,
           error: error
         });
       });
   };
 }
-
 
 /** Get holder */
 function getNftDashboardHolder(nft, chainId, data) {
@@ -123,7 +131,6 @@ function getNftDashboardAveragePrice(nft, chainId, data) {
   };
 }
 
-
 /** Get staking */
 function getNftDashboardStaking(nft, chainId, data) {
   return dispatch => {
@@ -140,6 +147,72 @@ function getNftDashboardStaking(nft, chainId, data) {
       .catch(error => {
         dispatch({
           type: OverviewDashboardConstants.GET_DASHBOARD_STAKING_FAILURE,
+          error: error
+        });
+      });
+  };
+}
+
+/** Get nft stats */
+function getNftStats(nft, chainId, data) {
+  return dispatch => {
+    dispatch({
+      type: OverviewDashboardConstants.GET_NFT_STATS_REQUEST
+    });
+    OverviewDashboardServices.getNftStats(nft, chainId, data)
+      .then(res => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_NFT_STATS_SUCCESS,
+          payload: res.data.result
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_NFT_STATS_FAILURE,
+          error: error
+        });
+      });
+  };
+}
+
+/** Get Auction participate */
+function getAuctionParticipate(nft, chainId, data) {
+  return dispatch => {
+    dispatch({
+      type: OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_REQUEST
+    });
+    OverviewDashboardServices.getAuctionParticipate(nft, chainId, data)
+      .then(res => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_SUCCESS,
+          payload: res.data.result
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_FAILURE,
+          error: error
+        });
+      });
+  };
+}
+
+/** Get Auction volume */
+function getAuctionVolume(nft, chainId, data) {
+  return dispatch => {
+    dispatch({
+      type: OverviewDashboardConstants.GET_AUCTION_VOLUME_REQUEST
+    });
+    OverviewDashboardServices.getAuctionVolume(nft, chainId, data)
+      .then(res => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_AUCTION_VOLUME_SUCCESS,
+          payload: res.data.result
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: OverviewDashboardConstants.GET_AUCTION_VOLUME_FAILURE,
           error: error
         });
       });

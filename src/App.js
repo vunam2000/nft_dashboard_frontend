@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { Routes } from './react-router/routes';
 
 import store from './redux/store';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import ScrollToTop from './utils/ScrollToTop';
 
 import './assets/base.scss';
-import './App.css'
+import './App.css';
 
 import {
   fab,
