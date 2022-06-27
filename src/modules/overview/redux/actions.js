@@ -163,7 +163,7 @@ function getNftStats(nft, chainId, data) {
       .then(res => {
         dispatch({
           type: OverviewDashboardConstants.GET_NFT_STATS_SUCCESS,
-          payload: res.data.result
+          payload: { [nft]: res.data.result }
         });
       })
       .catch(error => {

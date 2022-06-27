@@ -8,20 +8,22 @@ import { Grid, Card, Button, Box } from '@material-ui/core';
 
 import { OverviewDashboardActions } from '../redux/actions';
 
+import { NFT_CONSTANTS } from '../../../constants/nft.constant';
+
 function AuctionParticipateChart(props) {
   const { overviewDashboard } = props;
   const [rangeTime, setRangeTime] = useState('24h');
   const [interval, setInterval] = useState('1h');
 
-  // useEffect(() => {
-  //   props.getAuctionParticipate('trava_armoury', 'bsc', {
-  //     range_time: rangeTime,
-  //     interval: interval
-  //   });
-  // }, []);
+  useEffect(() => {
+    props.getAuctionParticipate(NFT_CONSTANTS.KNIGHT, 'bsc', {
+      range_time: rangeTime,
+      interval: interval
+    });
+  }, []);
 
   useEffect(() => {
-    props.getAuctionParticipate('trava_armoury', 'bsc', {
+    props.getAuctionParticipate(NFT_CONSTANTS.KNIGHT, 'bsc', {
       range_time: rangeTime,
       interval: interval
     });
@@ -39,36 +41,36 @@ function AuctionParticipateChart(props) {
     }
   };
 
-  let sellOnSales = {};
-  let buyOnSales = {};
-  let tradingVolumeLogs = {};
+  let auctioneer = {};
+  let bidder = {};
+  let nfts = {};
 
-  if (overviewDashboard?.marketPlaceTrend) {
-    sellOnSales = overviewDashboard.marketPlaceTrend.sellOnSale;
-    buyOnSales = overviewDashboard.marketPlaceTrend.buyOnSale;
-    tradingVolumeLogs = overviewDashboard.marketPlaceTrend.tradingVolumeLogs;
+  if (overviewDashboard?.auctionParticipates) {
+    auctioneer = overviewDashboard.auctionParticipates.auctioneers;
+    bidder = overviewDashboard.auctionParticipates.bidders;
+    nfts = overviewDashboard.auctionParticipates.nfts;
   }
 
-  let sellOnSaleDataCharts = [];
-  let buyOnSaleDataCharts = [];
-  let tradingVolumeLogDataCharts = [];
+  let auctioneerDataCharts = [];
+  let bidderDataCharts = [];
+  let nftsDataCharts = [];
 
-  for (const timestamp in sellOnSales) {
-    sellOnSaleDataCharts.push({
+  for (const timestamp in auctioneer) {
+    auctioneerDataCharts.push({
       x: parseInt(timestamp) * 1000,
-      y: sellOnSales[timestamp].volume
+      y: auctioneer[timestamp]
     });
   }
-  for (const timestamp in buyOnSales) {
-    buyOnSaleDataCharts.push({
+  for (const timestamp in bidder) {
+    bidderDataCharts.push({
       x: parseInt(timestamp) * 1000,
-      y: buyOnSales[timestamp].volume
+      y: bidder[timestamp]
     });
   }
-  for (const timestamp in tradingVolumeLogs) {
-    tradingVolumeLogDataCharts.push({
+  for (const timestamp in nfts) {
+    nftsDataCharts.push({
       x: parseInt(timestamp) * 1000,
-      y: tradingVolumeLogs[timestamp].volume
+      y: nfts[timestamp]
     });
   }
 
@@ -101,19 +103,19 @@ function AuctionParticipateChart(props) {
         name: 'Auctioneer',
         type: 'column',
         yAxis: 0,
-        data: sellOnSaleDataCharts
+        data: auctioneerDataCharts
       },
       {
         name: 'Bidder',
         type: 'column',
         yAxis: 0,
-        data: buyOnSaleDataCharts
+        data: bidderDataCharts
       },
       {
         name: 'NFTs',
         yAxis: 0,
         type: 'spline',
-        data: tradingVolumeLogDataCharts
+        data: nftsDataCharts
       }
     ],
 

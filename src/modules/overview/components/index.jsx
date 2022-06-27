@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
@@ -9,7 +10,7 @@ import TraderChart from './traderChart.jsx';
 import AverageChart from './averagePriceChart.jsx';
 import KnightStakingChart from './knightStakingChart';
 import AuctionVolumeChart from './auctionVolumeChart';
-import AuctionParticipateChart from './AuctionParticipateChart';
+import AuctionParticipateChart from './auctionParticipateChart';
 
 function OverviewDashboard(props) {
   return (

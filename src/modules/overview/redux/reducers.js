@@ -1,6 +1,11 @@
+/* eslint-disable no-case-declarations */
 import { OverviewDashboardConstants } from './constants';
 
-export function overviewDashboard(state = {}, action) {
+const initState = {
+  nftStats: {}
+};
+
+export function overviewDashboard(state = initState, action) {
   switch (action.type) {
     case OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_REQUEST:
       return {
@@ -103,10 +108,12 @@ export function overviewDashboard(state = {}, action) {
         ...state
       };
     case OverviewDashboardConstants.GET_NFT_STATS_SUCCESS:
+      const newNftStats = Object.assign(state.nftStats, action.payload);
+
       return {
         ...state,
         error: false,
-        nftStats: action.payload
+        nftStats: newNftStats
       };
     case OverviewDashboardConstants.GET_NFT_STATS_FAILURE:
       return {

@@ -3,19 +3,30 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { Grid, Card, CardContent, CardHeader, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 
 import { OverviewDashboardActions } from '../redux/actions';
 
+import { NFT_CONSTANTS } from '../../../constants/nft.constant';
+
+const useStyles = makeStyles(() => ({
+  icon: {
+    fontSize: '60px',
+    color: '#06c'
+  }
+}));
+
 function NFTStats(props) {
   const { overviewDashboard } = props;
   const [rangeTime, setRangeTime] = useState('24h');
-  console.log(overviewDashboard);
+  const classes = useStyles();
 
   useEffect(() => {
-    props.getNftStats('trava_armoury', 'bsc', {});
+    props.getNftStats(NFT_CONSTANTS.ARMOURY, 'bsc', {});
+    props.getNftStats(NFT_CONSTANTS.KNIGHT, 'bsc', {});
   }, []);
 
   const handleRangeTime = _rangeTime => {
@@ -29,7 +40,15 @@ function NFTStats(props) {
     '3m': '3m'
   };
 
-  const nftStats = overviewDashboard.nftStats;
+  const nftStatArmoury = overviewDashboard.nftStats?.[NFT_CONSTANTS.ARMOURY];
+  const nftStatKnight = overviewDashboard.nftStats?.[NFT_CONSTANTS.KNIGHT];
+
+  const tradingVolume = nftStatArmoury?.tradingVolume
+    ? Math.round(nftStatArmoury.tradingVolume)
+    : 0;
+  const nftAuctionVolume = nftStatKnight?.nftAuctionVolume
+    ? Math.round(nftStatKnight.nftAuctionVolume)
+    : 0;
 
   return (
     <Fragment>
@@ -75,22 +94,22 @@ function NFTStats(props) {
               <Grid item xs={4}>
                 <StatsCard
                   title="Total Sale"
-                  value={nftStats?.nftSale}
-                  icon={<ReceiptIcon style={{ fontSize: 40 }} />}
+                  value={nftStatArmoury?.nftSale ?? 0}
+                  icon={<ReceiptIcon className={classes.icon} />}
                 />
               </Grid>
               <Grid item xs={4}>
                 <StatsCard
                   title="Total Volume"
-                  value={'$ ' + Math.round(nftStats?.tradingVolume)}
-                  icon={<MonetizationOnOutlinedIcon style={{ fontSize: 40 }} />}
+                  value={'$ ' + tradingVolume}
+                  icon={<MonetizationOnOutlinedIcon className={classes.icon} />}
                 />
               </Grid>
               <Grid item xs={4}>
                 <StatsCard
                   title="Total Sold"
-                  value={nftStats?.nftSold}
-                  icon={<AssessmentIcon style={{ fontSize: 40 }} />}
+                  value={nftStatArmoury?.nftSold ?? ''}
+                  icon={<AssessmentIcon className={classes.icon} />}
                 />
               </Grid>
             </Grid>
@@ -103,22 +122,22 @@ function NFTStats(props) {
               <Grid item xs={4}>
                 <StatsCard
                   title="New Auction Listing"
-                  value={nftStats?.nftSale}
-                  icon={<ReceiptIcon style={{ fontSize: 40 }} />}
+                  value={nftStatKnight?.nftNewAuction ?? 0}
+                  icon={<ReceiptIcon className={classes.icon} />}
                 />
               </Grid>
               <Grid item xs={4}>
                 <StatsCard
                   title="Total Volume Auction"
-                  value={'$ ' + Math.round(nftStats?.tradingVolume)}
-                  icon={<MonetizationOnOutlinedIcon style={{ fontSize: 40 }} />}
+                  value={'$ ' + nftAuctionVolume}
+                  icon={<MonetizationOnOutlinedIcon className={classes.icon} />}
                 />
               </Grid>
               <Grid item xs={4}>
                 <StatsCard
                   title="Auction Successful"
-                  value={nftStats?.nftSold}
-                  icon={<AssessmentIcon style={{ fontSize: 40 }} />}
+                  value={nftStatKnight?.nftAuctionSold ?? 0}
+                  icon={<AssessmentIcon className={classes.icon} />}
                 />
               </Grid>
             </Grid>
@@ -135,9 +154,15 @@ function StatsCard(props) {
     <div style={{ display: 'inline-flex' }}>
       <div style={{ alignSelf: 'center', marginRight: '10px' }}>{icon}</div>
 
-      <div className="ml-20 uppercase">
-        <div className="text-10 text-gray-1 font-bold">{title}</div>
-        <strong className="mt-8 text-30 lg:text-28">{value}</strong>
+      <div className="ml-20">
+        <div className="text-10 text-gray-1 font-bold">
+          {title.toUpperCase()}
+        </div>
+        <strong
+          className="mt-8 text-30 lg:text-28"
+          style={{ fontSize: '25px' }}>
+          {value}
+        </strong>
       </div>
     </div>
   );

@@ -13,15 +13,15 @@ function AuctionVolumeChart(props) {
   const [rangeTime, setRangeTime] = useState('24h');
   const [interval, setInterval] = useState('1h');
 
-  //   useEffect(() => {
-  //     props.getAuctionVolume('trava_armoury', 'bsc', {
-  //       range_time: rangeTime,
-  //       interval: interval
-  //     });
-  //   }, []);
+  useEffect(() => {
+    props.getAuctionVolume('trava_knight', 'bsc', {
+      range_time: rangeTime,
+      interval: interval
+    });
+  }, []);
 
   useEffect(() => {
-    props.getAuctionVolume('trava_armoury', 'bsc', {
+    props.getAuctionVolume('trava_knight', 'bsc', {
       range_time: rangeTime,
       interval: interval
     });
@@ -39,13 +39,13 @@ function AuctionVolumeChart(props) {
     }
   };
 
-  let holderDataCharts = [];
-  let holders = overviewDashboard?.holder;
-  if (holders) {
-    for (const timestamp in holders) {
-      holderDataCharts.push({
+  let auctionVolumeDataCharts = [];
+  let auctionVolume = overviewDashboard?.auctionVolumes;
+  if (auctionVolume) {
+    for (const timestamp in auctionVolume) {
+      auctionVolumeDataCharts.push({
         x: parseInt(timestamp) * 1000,
-        y: holders[timestamp]
+        y: auctionVolume[timestamp].volume
       });
     }
   }
@@ -94,7 +94,7 @@ function AuctionVolumeChart(props) {
         name: 'Amount',
         yAxis: 0,
         type: 'column',
-        data: holderDataCharts
+        data: auctionVolumeDataCharts
       }
     ],
 
