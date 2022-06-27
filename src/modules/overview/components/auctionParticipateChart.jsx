@@ -12,7 +12,7 @@ import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function AuctionParticipateChart(props) {
   const { overviewDashboard } = props;
-  const [rangeTime, setRangeTime] = useState('24h');
+  const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
   useEffect(() => {

@@ -12,6 +12,8 @@ import { OverviewDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
+import { numberWithCommas } from '../../../helpers';
+
 const useStyles = makeStyles(() => ({
   icon: {
     fontSize: '60px',
@@ -21,13 +23,26 @@ const useStyles = makeStyles(() => ({
 
 function NFTStats(props) {
   const { overviewDashboard } = props;
-  const [rangeTime, setRangeTime] = useState('24h');
+  const [rangeTime, setRangeTime] = useState('7d');
   const classes = useStyles();
 
   useEffect(() => {
-    props.getNftStats(NFT_CONSTANTS.ARMOURY, 'bsc', {});
-    props.getNftStats(NFT_CONSTANTS.KNIGHT, 'bsc', {});
+    props.getNftStats(NFT_CONSTANTS.ARMOURY, 'bsc', {
+      range_time: rangeTime
+    });
+    props.getNftStats(NFT_CONSTANTS.KNIGHT, 'bsc', {
+      range_time: rangeTime
+    });
   }, []);
+
+  useEffect(() => {
+    props.getNftStats(NFT_CONSTANTS.ARMOURY, 'bsc', {
+      range_time: rangeTime
+    });
+    props.getNftStats(NFT_CONSTANTS.KNIGHT, 'bsc', {
+      range_time: rangeTime
+    });
+  }, [rangeTime]);
 
   const handleRangeTime = _rangeTime => {
     setRangeTime(_rangeTime);
@@ -101,7 +116,7 @@ function NFTStats(props) {
               <Grid item xs={4}>
                 <StatsCard
                   title="Total Volume"
-                  value={'$ ' + tradingVolume}
+                  value={'$ ' + numberWithCommas(tradingVolume)}
                   icon={<MonetizationOnOutlinedIcon className={classes.icon} />}
                 />
               </Grid>
@@ -129,7 +144,7 @@ function NFTStats(props) {
               <Grid item xs={4}>
                 <StatsCard
                   title="Total Volume Auction"
-                  value={'$ ' + nftAuctionVolume}
+                  value={'$ ' + numberWithCommas(nftAuctionVolume)}
                   icon={<MonetizationOnOutlinedIcon className={classes.icon} />}
                 />
               </Grid>

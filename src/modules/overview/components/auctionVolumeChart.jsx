@@ -8,20 +8,22 @@ import { Grid, Card, Button, Box } from '@material-ui/core';
 
 import { OverviewDashboardActions } from '../redux/actions';
 
+import { NFT_CONSTANTS } from '../../../constants/nft.constant';
+
 function AuctionVolumeChart(props) {
   const { overviewDashboard } = props;
-  const [rangeTime, setRangeTime] = useState('24h');
+  const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
   useEffect(() => {
-    props.getAuctionVolume('trava_knight', 'bsc', {
+    props.getAuctionVolume(NFT_CONSTANTS.KNIGHT, 'bsc', {
       range_time: rangeTime,
       interval: interval
     });
   }, []);
 
   useEffect(() => {
-    props.getAuctionVolume('trava_knight', 'bsc', {
+    props.getAuctionVolume(NFT_CONSTANTS.KNIGHT, 'bsc', {
       range_time: rangeTime,
       interval: interval
     });

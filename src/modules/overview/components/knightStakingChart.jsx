@@ -8,20 +8,22 @@ import { Grid, Card, Button, Box } from '@material-ui/core';
 
 import { OverviewDashboardActions } from '../redux/actions';
 
+import { NFT_CONSTANTS } from '../../../constants/nft.constant';
+
 function KnightStakingChart(props) {
   const { overviewDashboard } = props;
-  const [rangeTime, setRangeTime] = useState('24h');
+  const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
   useEffect(() => {
-    props.getNftDashboardStaking('trava_knight', 'bsc', {
+    props.getNftDashboardStaking(NFT_CONSTANTS.KNIGHT, 'bsc', {
       range_time: rangeTime,
       interval: interval
     });
   }, []);
 
   useEffect(() => {
-    props.getNftDashboardStaking('trava_knight', 'bsc', {
+    props.getNftDashboardStaking(NFT_CONSTANTS.KNIGHT, 'bsc', {
       range_time: rangeTime,
       interval: interval
     });

@@ -8,20 +8,22 @@ import { Grid, Card, Button, Box } from '@material-ui/core';
 
 import { OverviewDashboardActions } from '../redux/actions';
 
+import { NFT_CONSTANTS } from '../../../constants/nft.constant';
+
 function AveragePriceChart(props) {
   const { overviewDashboard } = props;
-  const [rangeTime, setRangeTime] = useState('24h');
+  const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
   useEffect(() => {
-    props.getNftDashboardAveragePrice('trava_armoury', 'bsc', {
+    props.getNftDashboardAveragePrice(NFT_CONSTANTS.ARMOURY, 'bsc', {
       range_time: rangeTime,
       interval: interval
     });
   }, []);
 
   useEffect(() => {
-    props.getNftDashboardAveragePrice('trava_armoury', 'bsc', {
+    props.getNftDashboardAveragePrice(NFT_CONSTANTS.ARMOURY, 'bsc', {
       range_time: rangeTime,
       interval: interval
     });
