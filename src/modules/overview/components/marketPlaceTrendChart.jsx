@@ -6,12 +6,12 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Grid, Card, Button, Box } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions';
+import { TradeDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function MarketPlaceTrendChart(props) {
-  const { overviewDashboard } = props;
+  const { tradeDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
@@ -45,10 +45,10 @@ function MarketPlaceTrendChart(props) {
   let buyOnSales = {};
   let tradingVolumeLogs = {};
 
-  if (overviewDashboard?.marketPlaceTrend) {
-    sellOnSales = overviewDashboard.marketPlaceTrend.sellOnSale;
-    buyOnSales = overviewDashboard.marketPlaceTrend.buyOnSale;
-    tradingVolumeLogs = overviewDashboard.marketPlaceTrend.tradingVolumeLogs;
+  if (tradeDashboard?.marketPlaceTrend) {
+    sellOnSales = tradeDashboard.marketPlaceTrend.sellOnSale;
+    buyOnSales = tradeDashboard.marketPlaceTrend.buyOnSale;
+    tradingVolumeLogs = tradeDashboard.marketPlaceTrend.tradingVolumeLogs;
   }
 
   let sellOnSaleDataCharts = [];
@@ -178,12 +178,12 @@ function MarketPlaceTrendChart(props) {
 }
 
 function mapState(state) {
-  const { overviewDashboard } = state;
-  return { overviewDashboard };
+  const { tradeDashboard } = state;
+  return { tradeDashboard };
 }
 const actions = {
   getNftDashboardMarketPlaceTrend:
-    OverviewDashboardActions.getNftDashboardMarketPlaceTrend
+    TradeDashboardActions.getNftDashboardMarketPlaceTrend
 };
 
 export default connect(mapState, actions)(MarketPlaceTrendChart);

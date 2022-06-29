@@ -6,12 +6,12 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Grid, Card, Button, Box } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions';
+import { TradeDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function NFTMarketCapAndTradingVolumeChart(props) {
-  const { overviewDashboard } = props;
+  const { tradeDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
@@ -44,9 +44,9 @@ function NFTMarketCapAndTradingVolumeChart(props) {
   let marketCapLogs = {};
   let tradingVolumeLogs = {};
 
-  if (overviewDashboard?.marketCapAndVolume) {
-    marketCapLogs = overviewDashboard.marketCapAndVolume.marketCapLogs;
-    tradingVolumeLogs = overviewDashboard.marketCapAndVolume.tradingVolumeLogs;
+  if (tradeDashboard?.marketCapAndVolume) {
+    marketCapLogs = tradeDashboard.marketCapAndVolume.marketCapLogs;
+    tradingVolumeLogs = tradeDashboard.marketCapAndVolume.tradingVolumeLogs;
   }
 
   let marketCapLogDataCharts = [];
@@ -185,12 +185,12 @@ function NFTMarketCapAndTradingVolumeChart(props) {
 }
 
 function mapState(state) {
-  const { overviewDashboard } = state;
-  return { overviewDashboard };
+  const { tradeDashboard } = state;
+  return { tradeDashboard };
 }
 const actions = {
   getNftDashboardMarketCapVolume:
-    OverviewDashboardActions.getNftDashboardMarketCapVolume
+    TradeDashboardActions.getNftDashboardMarketCapVolume
 };
 
 export default connect(mapState, actions)(NFTMarketCapAndTradingVolumeChart);

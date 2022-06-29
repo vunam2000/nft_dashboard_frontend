@@ -6,25 +6,23 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import { ThemeProvider } from '@material-ui/styles';
 
-import { PrivateRoute } from './privateRoute';
-import { AuthRoute } from './authRoute';
 import { PublicRoute } from './publicRoute';
 
 // Theme
 import MuiTheme from '../theme';
 
 // Layout Blueprints
-import { LeftSidebar, PresentationLayout } from '../layout-blueprints';
+import { LeftSidebar } from '../layout-blueprints';
 
 import { PermissionRoute, AllRoute } from './permission';
 
-const NotFound = lazy(() => import('../modules/not-found'))
+const NotFound = lazy(() => import('../modules/not-found'));
 
-const OverviewDashboard = lazy(() => import('../modules/overview/components'));
+const TradeDashboard = lazy(() => import('../modules/overview/components'));
+const AuctionDashboard = lazy(() => import('../modules/auction/components'));
 const UserAnalysis = lazy(() => import('../modules/user-analysis/components'));
 
 const Routes = props => {
-  const { user } = props;
   const location = useLocation();
 
   const pageVariants = {
@@ -48,8 +46,6 @@ const Routes = props => {
     duration: 0.4
   };
 
-  let currentUser = user.currentUser
-
   return (
     <ThemeProvider theme={MuiTheme}>
       <AnimatePresence>
@@ -72,9 +68,14 @@ const Routes = props => {
                     variants={pageVariants}
                     transition={pageTransition}>
                     <PublicRoute
-                      path={PermissionRoute.OVERVIEW.path}
-                      title={PermissionRoute.OVERVIEW.title}
-                      component={OverviewDashboard}
+                      path={PermissionRoute.TRADE.path}
+                      title={PermissionRoute.TRADE.title}
+                      component={TradeDashboard}
+                    />
+                    <PublicRoute
+                      path={PermissionRoute.AUCTION.path}
+                      title={PermissionRoute.AUCTION.title}
+                      component={AuctionDashboard}
                     />
                     <PublicRoute
                       path={PermissionRoute.USER_ANALYSIS.path}

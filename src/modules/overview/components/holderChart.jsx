@@ -6,12 +6,12 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Grid, Card, Button, Box } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions';
+import { TradeDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function HolderChart(props) {
-  const { overviewDashboard } = props;
+  const { tradeDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
@@ -42,7 +42,7 @@ function HolderChart(props) {
   };
 
   let holderDataCharts = [];
-  let holders = overviewDashboard?.holder;
+  let holders = tradeDashboard?.holder;
   if (holders) {
     for (const timestamp in holders) {
       holderDataCharts.push({
@@ -159,11 +159,11 @@ function HolderChart(props) {
 }
 
 function mapState(state) {
-  const { overviewDashboard } = state;
-  return { overviewDashboard };
+  const { tradeDashboard } = state;
+  return { tradeDashboard };
 }
 const actions = {
-  getNftDashboardHolder: OverviewDashboardActions.getNftDashboardHolder
+  getNftDashboardHolder: TradeDashboardActions.getNftDashboardHolder
 };
 
 export default connect(mapState, actions)(HolderChart);

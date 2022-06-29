@@ -10,8 +10,6 @@ import HolderChart from './holderChart.jsx';
 import TraderChart from './traderChart.jsx';
 import AverageChart from './averagePriceChart.jsx';
 import KnightStakingChart from './knightStakingChart';
-import AuctionVolumeChart from './auctionVolumeChart';
-import AuctionParticipateChart from './auctionParticipateChart';
 
 import { Spinner } from '../../../common-components';
 
@@ -38,12 +36,6 @@ function OverviewDashboard(props) {
       </LazyLoad>
       <LazyLoad scroll={true} once={true} placeholder={<Spinner />}>
         <KnightStakingChart />
-      </LazyLoad>
-      <LazyLoad scroll={true} once={true} placeholder={<Spinner />}>
-        <AuctionVolumeChart />
-      </LazyLoad>
-      <LazyLoad scroll={true} once={true} placeholder={<Spinner />}>
-        <AuctionParticipateChart />
       </LazyLoad>
     </Fragment>
   );

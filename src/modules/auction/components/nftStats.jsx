@@ -8,7 +8,7 @@ import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutline
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 
-import { TradeDashboardActions } from '../redux/actions';
+import { AuctionDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
@@ -22,23 +22,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 function NFTStats(props) {
-  const { tradeDashboard } = props;
+  const { auctionDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const classes = useStyles();
 
   useEffect(() => {
-    props.getNftStats(NFT_CONSTANTS.ARMOURY, 'bsc', {
-      range_time: rangeTime
-    });
     props.getNftStats(NFT_CONSTANTS.KNIGHT, 'bsc', {
       range_time: rangeTime
     });
   }, []);
 
   useEffect(() => {
-    props.getNftStats(NFT_CONSTANTS.ARMOURY, 'bsc', {
-      range_time: rangeTime
-    });
     props.getNftStats(NFT_CONSTANTS.KNIGHT, 'bsc', {
       range_time: rangeTime
     });
@@ -55,10 +49,10 @@ function NFTStats(props) {
     '3m': '3m'
   };
 
-  const nftStatArmoury = tradeDashboard.nftStats?.[NFT_CONSTANTS.ARMOURY];
+  const nftStatKnight = auctionDashboard.nftStats?.[NFT_CONSTANTS.KNIGHT];
 
-  const tradingVolume = nftStatArmoury?.tradingVolume
-    ? Math.round(nftStatArmoury.tradingVolume)
+  const nftAuctionVolume = nftStatKnight?.nftAuctionVolume
+    ? Math.round(nftStatKnight.nftAuctionVolume)
     : 0;
 
   return (
@@ -104,22 +98,22 @@ function NFTStats(props) {
               spacing={3}>
               <Grid item xs={4}>
                 <StatsCard
-                  title="Total Sale"
-                  value={nftStatArmoury?.nftSale ?? 0}
+                  title="New Auction Listing"
+                  value={nftStatKnight?.nftNewAuction ?? 0}
                   icon={<ReceiptIcon className={classes.icon} />}
                 />
               </Grid>
               <Grid item xs={4}>
                 <StatsCard
-                  title="Total Volume"
-                  value={'$ ' + numberWithCommas(tradingVolume)}
+                  title="Total Volume Auction"
+                  value={'$ ' + numberWithCommas(nftAuctionVolume)}
                   icon={<MonetizationOnOutlinedIcon className={classes.icon} />}
                 />
               </Grid>
               <Grid item xs={4}>
                 <StatsCard
-                  title="Total Sold"
-                  value={nftStatArmoury?.nftSold ?? ''}
+                  title="Auction Successful"
+                  value={nftStatKnight?.nftAuctionSold ?? 0}
                   icon={<AssessmentIcon className={classes.icon} />}
                 />
               </Grid>
@@ -152,11 +146,11 @@ function StatsCard(props) {
 }
 
 function mapState(state) {
-  const { tradeDashboard } = state;
-  return { tradeDashboard };
+  const { auctionDashboard } = state;
+  return { auctionDashboard };
 }
 const actions = {
-  getNftStats: TradeDashboardActions.getNftStats
+  getNftStats: AuctionDashboardActions.getNftStats
 };
 
 export default connect(mapState, actions)(NFTStats);

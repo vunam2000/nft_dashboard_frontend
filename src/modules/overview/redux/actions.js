@@ -1,36 +1,34 @@
-import { OverviewDashboardServices } from './services';
-import { OverviewDashboardConstants } from './constants';
+import { TradeDashboardServices } from './services';
+import { TradeDashboardConstants } from './constants';
 
-export const OverviewDashboardActions = {
+export const TradeDashboardActions = {
   getNftDashboardMarketCapVolume,
   getNftDashboardMarketPlaceTrend,
   getNftDashboardHolder,
   getNftDashboardTrader,
   getNftDashboardAveragePrice,
   getNftDashboardStaking,
-  getNftStats,
-  getAuctionParticipate,
-  getAuctionVolume
+  getNftStats
 };
 
 /** Get market cap and volume */
 function getNftDashboardMarketCapVolume(nft, chainId, data) {
   return dispatch => {
     dispatch({
-      type: OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_REQUEST
+      type: TradeDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_REQUEST
     });
-    OverviewDashboardServices.getNftDashboardMarketCapVolume(nft, chainId, data)
+    TradeDashboardServices.getNftDashboardMarketCapVolume(nft, chainId, data)
       .then(res => {
         dispatch({
           type:
-            OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_SUCCESS,
+            TradeDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_SUCCESS,
           payload: res.data.result
         });
       })
       .catch(error => {
         dispatch({
           type:
-            OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_FAILURE,
+            TradeDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_FAILURE,
           error: error
         });
       });
@@ -41,9 +39,9 @@ function getNftDashboardMarketCapVolume(nft, chainId, data) {
 function getNftDashboardMarketPlaceTrend(nft, chainId, data) {
   return dispatch => {
     dispatch({
-      type: OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_REQUEST
+      type: TradeDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_REQUEST
     });
-    OverviewDashboardServices.getNftDashboardMarketPlaceTrend(
+    TradeDashboardServices.getNftDashboardMarketPlaceTrend(
       nft,
       chainId,
       data
@@ -51,14 +49,14 @@ function getNftDashboardMarketPlaceTrend(nft, chainId, data) {
       .then(res => {
         dispatch({
           type:
-            OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_SUCCESS,
+            TradeDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_SUCCESS,
           payload: res.data.result
         });
       })
       .catch(error => {
         dispatch({
           type:
-            OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_FAILURE,
+            TradeDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_FAILURE,
           error: error
         });
       });
@@ -69,18 +67,18 @@ function getNftDashboardMarketPlaceTrend(nft, chainId, data) {
 function getNftDashboardHolder(nft, chainId, data) {
   return dispatch => {
     dispatch({
-      type: OverviewDashboardConstants.GET_DASHBOARD_HOLDER_REQUEST
+      type: TradeDashboardConstants.GET_DASHBOARD_HOLDER_REQUEST
     });
-    OverviewDashboardServices.getNftDashboardHolder(nft, chainId, data)
+    TradeDashboardServices.getNftDashboardHolder(nft, chainId, data)
       .then(res => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_HOLDER_SUCCESS,
+          type: TradeDashboardConstants.GET_DASHBOARD_HOLDER_SUCCESS,
           payload: res.data.result
         });
       })
       .catch(error => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_HOLDER_FAILURE,
+          type: TradeDashboardConstants.GET_DASHBOARD_HOLDER_FAILURE,
           error: error
         });
       });
@@ -91,18 +89,18 @@ function getNftDashboardHolder(nft, chainId, data) {
 function getNftDashboardTrader(nft, chainId, data) {
   return dispatch => {
     dispatch({
-      type: OverviewDashboardConstants.GET_DASHBOARD_TRADER_REQUEST
+      type: TradeDashboardConstants.GET_DASHBOARD_TRADER_REQUEST
     });
-    OverviewDashboardServices.getNftDashboardTrader(nft, chainId, data)
+    TradeDashboardServices.getNftDashboardTrader(nft, chainId, data)
       .then(res => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_TRADER_SUCCESS,
+          type: TradeDashboardConstants.GET_DASHBOARD_TRADER_SUCCESS,
           payload: res.data.result
         });
       })
       .catch(error => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_TRADER_FAILURE,
+          type: TradeDashboardConstants.GET_DASHBOARD_TRADER_FAILURE,
           error: error
         });
       });
@@ -113,18 +111,18 @@ function getNftDashboardTrader(nft, chainId, data) {
 function getNftDashboardAveragePrice(nft, chainId, data) {
   return dispatch => {
     dispatch({
-      type: OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_REQUEST
+      type: TradeDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_REQUEST
     });
-    OverviewDashboardServices.getNftDashboardAveragePrice(nft, chainId, data)
+    TradeDashboardServices.getNftDashboardAveragePrice(nft, chainId, data)
       .then(res => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_SUCCESS,
+          type: TradeDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_SUCCESS,
           payload: res.data.result
         });
       })
       .catch(error => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_FAILURE,
+          type: TradeDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_FAILURE,
           error: error
         });
       });
@@ -135,18 +133,18 @@ function getNftDashboardAveragePrice(nft, chainId, data) {
 function getNftDashboardStaking(nft, chainId, data) {
   return dispatch => {
     dispatch({
-      type: OverviewDashboardConstants.GET_DASHBOARD_STAKING_REQUEST
+      type: TradeDashboardConstants.GET_DASHBOARD_STAKING_REQUEST
     });
-    OverviewDashboardServices.getNftDashboardStaking(nft, chainId, data)
+    TradeDashboardServices.getNftDashboardStaking(nft, chainId, data)
       .then(res => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_STAKING_SUCCESS,
+          type: TradeDashboardConstants.GET_DASHBOARD_STAKING_SUCCESS,
           payload: res.data.result
         });
       })
       .catch(error => {
         dispatch({
-          type: OverviewDashboardConstants.GET_DASHBOARD_STAKING_FAILURE,
+          type: TradeDashboardConstants.GET_DASHBOARD_STAKING_FAILURE,
           error: error
         });
       });
@@ -157,62 +155,18 @@ function getNftDashboardStaking(nft, chainId, data) {
 function getNftStats(nft, chainId, data) {
   return dispatch => {
     dispatch({
-      type: OverviewDashboardConstants.GET_NFT_STATS_REQUEST
+      type: TradeDashboardConstants.GET_NFT_STATS_REQUEST
     });
-    OverviewDashboardServices.getNftStats(nft, chainId, data)
+    TradeDashboardServices.getNftStats(nft, chainId, data)
       .then(res => {
         dispatch({
-          type: OverviewDashboardConstants.GET_NFT_STATS_SUCCESS,
+          type: TradeDashboardConstants.GET_NFT_STATS_SUCCESS,
           payload: { [nft]: res.data.result }
         });
       })
       .catch(error => {
         dispatch({
-          type: OverviewDashboardConstants.GET_NFT_STATS_FAILURE,
-          error: error
-        });
-      });
-  };
-}
-
-/** Get Auction participate */
-function getAuctionParticipate(nft, chainId, data) {
-  return dispatch => {
-    dispatch({
-      type: OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_REQUEST
-    });
-    OverviewDashboardServices.getAuctionParticipate(nft, chainId, data)
-      .then(res => {
-        dispatch({
-          type: OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_SUCCESS,
-          payload: res.data.result
-        });
-      })
-      .catch(error => {
-        dispatch({
-          type: OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_FAILURE,
-          error: error
-        });
-      });
-  };
-}
-
-/** Get Auction volume */
-function getAuctionVolume(nft, chainId, data) {
-  return dispatch => {
-    dispatch({
-      type: OverviewDashboardConstants.GET_AUCTION_VOLUME_REQUEST
-    });
-    OverviewDashboardServices.getAuctionVolume(nft, chainId, data)
-      .then(res => {
-        dispatch({
-          type: OverviewDashboardConstants.GET_AUCTION_VOLUME_SUCCESS,
-          payload: res.data.result
-        });
-      })
-      .catch(error => {
-        dispatch({
-          type: OverviewDashboardConstants.GET_AUCTION_VOLUME_FAILURE,
+          type: TradeDashboardConstants.GET_NFT_STATS_FAILURE,
           error: error
         });
       });

@@ -6,12 +6,12 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Grid, Card, Button, Box } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions';
+import { TradeDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function TraderChart(props) {
-  const { overviewDashboard } = props;
+  const { tradeDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
@@ -45,10 +45,10 @@ function TraderChart(props) {
   let buyers = {};
   let traders = {};
 
-  if (overviewDashboard?.trader) {
-    sellers = overviewDashboard.trader.seller;
-    buyers = overviewDashboard.trader.buyer;
-    traders = overviewDashboard.trader.all;
+  if (tradeDashboard?.trader) {
+    sellers = tradeDashboard.trader.seller;
+    buyers = tradeDashboard.trader.buyer;
+    traders = tradeDashboard.trader.all;
   }
 
   let sellerDataCharts = [];
@@ -178,11 +178,11 @@ function TraderChart(props) {
 }
 
 function mapState(state) {
-  const { overviewDashboard } = state;
-  return { overviewDashboard };
+  const { tradeDashboard } = state;
+  return { tradeDashboard };
 }
 const actions = {
-  getNftDashboardTrader: OverviewDashboardActions.getNftDashboardTrader
+  getNftDashboardTrader: TradeDashboardActions.getNftDashboardTrader
 };
 
 export default connect(mapState, actions)(TraderChart);

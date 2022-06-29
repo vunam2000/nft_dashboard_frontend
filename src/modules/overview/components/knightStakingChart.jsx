@@ -6,12 +6,12 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Grid, Card, Button, Box } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions';
+import { TradeDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function KnightStakingChart(props) {
-  const { overviewDashboard } = props;
+  const { tradeDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
@@ -48,7 +48,7 @@ function KnightStakingChart(props) {
   let diamonds = [];
   let crystals = [];
 
-  let staking = overviewDashboard?.staking;
+  let staking = tradeDashboard?.staking;
   if (staking) {
     for (const timestamp in staking) {
       allVault.push({
@@ -204,11 +204,11 @@ function KnightStakingChart(props) {
 }
 
 function mapState(state) {
-  const { overviewDashboard } = state;
-  return { overviewDashboard };
+  const { tradeDashboard } = state;
+  return { tradeDashboard };
 }
 const actions = {
-  getNftDashboardStaking: OverviewDashboardActions.getNftDashboardStaking
+  getNftDashboardStaking: TradeDashboardActions.getNftDashboardStaking
 };
 
 export default connect(mapState, actions)(KnightStakingChart);

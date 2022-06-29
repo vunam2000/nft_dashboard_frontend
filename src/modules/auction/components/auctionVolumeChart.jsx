@@ -6,12 +6,12 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Grid, Card, Button, Box } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions';
+import { AuctionDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function AuctionVolumeChart(props) {
-  const { overviewDashboard } = props;
+  const { auctionDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
@@ -42,7 +42,7 @@ function AuctionVolumeChart(props) {
   };
 
   let auctionVolumeDataCharts = [];
-  let auctionVolume = overviewDashboard?.auctionVolumes;
+  let auctionVolume = auctionDashboard?.auctionVolumes;
   if (auctionVolume) {
     for (const timestamp in auctionVolume) {
       auctionVolumeDataCharts.push({
@@ -159,11 +159,11 @@ function AuctionVolumeChart(props) {
 }
 
 function mapState(state) {
-  const { overviewDashboard } = state;
-  return { overviewDashboard };
+  const { auctionDashboard } = state;
+  return { auctionDashboard };
 }
 const actions = {
-  getAuctionVolume: OverviewDashboardActions.getAuctionVolume
+  getAuctionVolume: AuctionDashboardActions.getAuctionVolume
 };
 
 export default connect(mapState, actions)(AuctionVolumeChart);

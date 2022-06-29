@@ -6,12 +6,12 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Grid, Card, Button, Box } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions';
+import { AuctionDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function AuctionParticipateChart(props) {
-  const { overviewDashboard } = props;
+  const { auctionDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
@@ -45,10 +45,10 @@ function AuctionParticipateChart(props) {
   let bidder = {};
   let nfts = {};
 
-  if (overviewDashboard?.auctionParticipates) {
-    auctioneer = overviewDashboard.auctionParticipates.auctioneers;
-    bidder = overviewDashboard.auctionParticipates.bidders;
-    nfts = overviewDashboard.auctionParticipates.nfts;
+  if (auctionDashboard?.auctionParticipates) {
+    auctioneer = auctionDashboard.auctionParticipates.auctioneers;
+    bidder = auctionDashboard.auctionParticipates.bidders;
+    nfts = auctionDashboard.auctionParticipates.nfts;
   }
 
   let auctioneerDataCharts = [];
@@ -178,11 +178,11 @@ function AuctionParticipateChart(props) {
 }
 
 function mapState(state) {
-  const { overviewDashboard } = state;
-  return { overviewDashboard };
+  const { auctionDashboard } = state;
+  return { auctionDashboard };
 }
 const actions = {
-  getAuctionParticipate: OverviewDashboardActions.getAuctionParticipate
+  getAuctionParticipate: AuctionDashboardActions.getAuctionParticipate
 };
 
 export default connect(mapState, actions)(AuctionParticipateChart);

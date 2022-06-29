@@ -1,32 +1,34 @@
 const Role = {
-    SYSTEM_ADMIN: "SYSTEMADMIN",
-    ADMIN: "ADMIN",
-    MEMBER: "MEMBER",
-}
+  SYSTEM_ADMIN: 'SYSTEMADMIN',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+};
 
 const PermissionRoute = {
-    OVERVIEW: {
-        path: "/overview",
-        title: "Overview",
-        roles: "@all"
-    },
+  TRADE: {
+    path: '/trade',
+    title: 'Trade',
+    roles: '@all'
+  },
 
-    USER_ANALYSIS: {
-        path: "/user-analysis",
-        title: "User Analysis",
-        roles: "@all"
-    },
+  AUCTION: {
+    path: '/auction',
+    title: 'Auction',
+    roles: '@all'
+  },
 
-    NOT_FOUND: {
-        path: "/404",
-        title: "Not Found"
-    }
-}
+  USER_ANALYSIS: {
+    path: '/user-analysis',
+    title: 'User Analysis',
+    roles: '@all'
+  },
 
-const AllRoute = Object.values(PermissionRoute).map(item => item.path)
+  NOT_FOUND: {
+    path: '/404',
+    title: 'Not Found'
+  }
+};
 
-export {
-    Role,
-    PermissionRoute,
-    AllRoute
-}
+const AllRoute = Object.values(PermissionRoute).map(item => item.path);
+
+export { Role, PermissionRoute, AllRoute };

@@ -6,12 +6,12 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Grid, Card, Button, Box } from '@material-ui/core';
 
-import { OverviewDashboardActions } from '../redux/actions';
+import { TradeDashboardActions } from '../redux/actions';
 
 import { NFT_CONSTANTS } from '../../../constants/nft.constant';
 
 function AveragePriceChart(props) {
-  const { overviewDashboard } = props;
+  const { tradeDashboard } = props;
   const [rangeTime, setRangeTime] = useState('7d');
   const [interval, setInterval] = useState('1h');
 
@@ -47,7 +47,7 @@ function AveragePriceChart(props) {
   let diamonds = [];
   let crystals = [];
 
-  let averagePrice = overviewDashboard?.averagePrice;
+  let averagePrice = tradeDashboard?.averagePrice;
   if (averagePrice) {
     for (const timestamp in averagePrice) {
       coppers.push({
@@ -199,12 +199,12 @@ function AveragePriceChart(props) {
 }
 
 function mapState(state) {
-  const { overviewDashboard } = state;
-  return { overviewDashboard };
+  const { tradeDashboard } = state;
+  return { tradeDashboard };
 }
 const actions = {
   getNftDashboardAveragePrice:
-    OverviewDashboardActions.getNftDashboardAveragePrice
+    TradeDashboardActions.getNftDashboardAveragePrice
 };
 
 export default connect(mapState, actions)(AveragePriceChart);

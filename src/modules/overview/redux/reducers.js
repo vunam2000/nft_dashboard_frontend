@@ -1,113 +1,113 @@
 /* eslint-disable no-case-declarations */
-import { OverviewDashboardConstants } from './constants';
+import { TradeDashboardConstants } from './constants';
 
 const initState = {
   nftStats: {}
 };
 
-export function overviewDashboard(state = initState, action) {
+export function tradeDashboard(state = initState, action) {
   switch (action.type) {
-    case OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_REQUEST:
+    case TradeDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_REQUEST:
       return {
         ...state
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_SUCCESS:
+    case TradeDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_SUCCESS:
       return {
         ...state,
         error: false,
         marketCapAndVolume: action.payload
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_FAILURE:
+    case TradeDashboardConstants.GET_DASHBOARD_MARKET_CAP_VOLUME_FAILURE:
       return {
         ...state,
         error: true
       };
 
-    case OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_REQUEST:
+    case TradeDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_REQUEST:
       return {
         ...state
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_SUCCESS:
+    case TradeDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_SUCCESS:
       return {
         ...state,
         error: false,
         marketPlaceTrend: action.payload
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_FAILURE:
+    case TradeDashboardConstants.GET_DASHBOARD_MARKET_PLACE_TREND_FAILURE:
       return {
         ...state,
         error: true
       };
 
-    case OverviewDashboardConstants.GET_DASHBOARD_HOLDER_REQUEST:
+    case TradeDashboardConstants.GET_DASHBOARD_HOLDER_REQUEST:
       return {
         ...state
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_HOLDER_SUCCESS:
+    case TradeDashboardConstants.GET_DASHBOARD_HOLDER_SUCCESS:
       return {
         ...state,
         error: false,
         holder: action.payload
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_HOLDER_FAILURE:
+    case TradeDashboardConstants.GET_DASHBOARD_HOLDER_FAILURE:
       return {
         ...state,
         error: true
       };
 
-    case OverviewDashboardConstants.GET_DASHBOARD_TRADER_REQUEST:
+    case TradeDashboardConstants.GET_DASHBOARD_TRADER_REQUEST:
       return {
         ...state
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_TRADER_SUCCESS:
+    case TradeDashboardConstants.GET_DASHBOARD_TRADER_SUCCESS:
       return {
         ...state,
         error: false,
         trader: action.payload
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_TRADER_FAILURE:
+    case TradeDashboardConstants.GET_DASHBOARD_TRADER_FAILURE:
       return {
         ...state,
         error: true
       };
 
-    case OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_REQUEST:
+    case TradeDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_REQUEST:
       return {
         ...state
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_SUCCESS:
+    case TradeDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_SUCCESS:
       return {
         ...state,
         error: false,
         averagePrice: action.payload
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_FAILURE:
+    case TradeDashboardConstants.GET_DASHBOARD_AVERAGE_PRICE_FAILURE:
       return {
         ...state,
         error: true
       };
 
-    case OverviewDashboardConstants.GET_DASHBOARD_STAKING_REQUEST:
+    case TradeDashboardConstants.GET_DASHBOARD_STAKING_REQUEST:
       return {
         ...state
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_STAKING_SUCCESS:
+    case TradeDashboardConstants.GET_DASHBOARD_STAKING_SUCCESS:
       return {
         ...state,
         error: false,
         staking: action.payload
       };
-    case OverviewDashboardConstants.GET_DASHBOARD_STAKING_FAILURE:
+    case TradeDashboardConstants.GET_DASHBOARD_STAKING_FAILURE:
       return {
         ...state,
         error: true
       };
 
-    case OverviewDashboardConstants.GET_NFT_STATS_REQUEST:
+    case TradeDashboardConstants.GET_NFT_STATS_REQUEST:
       return {
         ...state
       };
-    case OverviewDashboardConstants.GET_NFT_STATS_SUCCESS:
+    case TradeDashboardConstants.GET_NFT_STATS_SUCCESS:
       const newNftStats = Object.assign(state.nftStats, action.payload);
 
       return {
@@ -115,39 +115,7 @@ export function overviewDashboard(state = initState, action) {
         error: false,
         nftStats: newNftStats
       };
-    case OverviewDashboardConstants.GET_NFT_STATS_FAILURE:
-      return {
-        ...state,
-        error: true
-      };
-
-    case OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_REQUEST:
-      return {
-        ...state
-      };
-    case OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_SUCCESS:
-      return {
-        ...state,
-        error: false,
-        auctionParticipates: action.payload
-      };
-    case OverviewDashboardConstants.GET_AUCTION_PARTICIPATE_FAILURE:
-      return {
-        ...state,
-        error: true
-      };
-
-    case OverviewDashboardConstants.GET_AUCTION_VOLUME_REQUEST:
-      return {
-        ...state
-      };
-    case OverviewDashboardConstants.GET_AUCTION_VOLUME_SUCCESS:
-      return {
-        ...state,
-        error: false,
-        auctionVolumes: action.payload
-      };
-    case OverviewDashboardConstants.GET_AUCTION_VOLUME_FAILURE:
+    case TradeDashboardConstants.GET_NFT_STATS_FAILURE:
       return {
         ...state,
         error: true

@@ -1,4 +1,5 @@
-import React, { Fragment, useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { Fragment, useEffect } from 'react';
 
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
@@ -11,7 +12,7 @@ import {
   Button,
   Tooltip
 } from '@material-ui/core';
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 import { connect } from 'react-redux';
 
 import { setSidebarToggleMobile } from '../../redux/ThemeOptions';
@@ -23,7 +24,7 @@ import HeaderUserbox from '../../layout-components/HeaderUserbox';
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded';
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
-import { UserActions } from '../../modules/user/redux/actions'
+import { UserActions } from '../../modules/user/redux/actions';
 import { AuthActions } from '../../modules/auth/redux/actions';
 
 import { checkLogin } from '../../helpers';
@@ -42,61 +43,61 @@ const Header = props => {
     headerShadow,
     headerFixed,
     sidebarToggleMobile,
-    setSidebarToggleMobile,
-    auth
+    setSidebarToggleMobile
   } = props;
 
   const connectWallet = () => {
     if (window.ethereum) {
-      window.ethereum.request({ method: 'eth_requestAccounts' })
-        .then(res => {
-          // Return the address of the wallet
-          handleLogin(res[0])
-        })
+      window.ethereum.request({ method: 'eth_requestAccounts' }).then(res => {
+        // Return the address of the wallet
+        handleLogin(res[0]);
+      });
     } else {
-      alert("install metamask extension!!")
-    }
-  }
-
-  const handleLogin = async (wallet_address) => {
-    let data = await fetch(`${process.env.REACT_APP_SERVER}/v1/wallet?wallet_address=${wallet_address}`)
-      .then(response => response.json())
-      .catch(err => {
-        return handleSignup(wallet_address)
-      })
-   
-    if (data?.result) {
-      let signature = await handleSignMessage(data.result.nonce)
-      handleAuthenticate(data.result.address, signature)
+      alert('install metamask extension!!');
     }
   };
-  const handleSignup = async (wallet_address) => {
+
+  const handleLogin = async wallet_address => {
+    let data = await fetch(
+      `${process.env.REACT_APP_SERVER}/v1/wallet?wallet_address=${wallet_address}`
+    )
+      .then(response => response.json())
+      .catch(err => {
+        return handleSignup(wallet_address);
+      });
+
+    if (data?.result) {
+      let signature = await handleSignMessage(data.result.nonce);
+      handleAuthenticate(data.result.address, signature);
+    }
+  };
+  const handleSignup = async wallet_address => {
     let data = await fetch(`${process.env.REACT_APP_SERVER}/v1/wallet`, {
-      body: JSON.stringify({ 'wallet_address': wallet_address }),
+      body: JSON.stringify({ wallet_address: wallet_address }),
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST'
     }).then(response => response.json());
-    return data
-  }
+    return data;
+  };
 
-  const handleSignMessage = async (nonce) => {
+  const handleSignMessage = async nonce => {
     try {
-      const message = `I am signing my one-time nonce: ${nonce}`
+      const message = `I am signing my one-time nonce: ${nonce}`;
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const signature = await signer.signMessage(message);
-  
-      return signature
+
+      return signature;
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
   const handleAuthenticate = (address, signature) => {
-    props.login({ 'address': address, 'signature': signature })
-  }
+    props.login({ address: address, signature: signature });
+  };
 
   return (
     <Fragment>
@@ -128,15 +129,17 @@ const Header = props => {
               </Hidden>
             </Box>
           </Hidden>
-          <Box className="d-flex align-items-center">
-          </Box>
+          <Box className="d-flex align-items-center"></Box>
           <Box className="d-flex align-items-center">
             {checkLogin() ? (
               <HeaderUserbox />
             ) : (
               <Box className="d-flex align-items-center">
                 <Button
-                  className="m-1" variant="contained" color="default" size="small"
+                  className="m-1"
+                  variant="contained"
+                  color="default"
+                  size="small"
                   onClick={() => connectWallet()}>
                   Connect Wallet
                 </Button>
@@ -173,7 +176,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setSidebarToggleMobile: enable => dispatch(setSidebarToggleMobile(enable)),
   getCurrentUser: () => dispatch(UserActions.getCurrentUser()),
-  login: (data) => dispatch(AuthActions.login(data)),
+  login: data => dispatch(AuthActions.login(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
