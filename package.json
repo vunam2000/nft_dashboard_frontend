@@ -2,7 +2,7 @@
   "name": "nft_dashboard",
   "version": "1.0.0",
   "title": "NFT Dashboard",
-  "homepage": "/overview",
+  "homepage": "/trade",
   "description": "This web for analyzing NFT",
   "author": {
     "name": "Fight every project",
