@@ -9,7 +9,6 @@ import MarketPlaceTrendChart from './marketPlaceTrendChart';
 import HolderChart from './holderChart.jsx';
 import TraderChart from './traderChart.jsx';
 import AverageChart from './averagePriceChart.jsx';
-import KnightStakingChart from './knightStakingChart';
 
 import { Spinner } from '../../../common-components';
 
@@ -34,9 +33,9 @@ function OverviewDashboard(props) {
       <LazyLoad scroll={true} once={true} placeholder={<Spinner />}>
         <AverageChart />
       </LazyLoad>
-      <LazyLoad scroll={true} once={true} placeholder={<Spinner />}>
+      {/* <LazyLoad scroll={true} once={true} placeholder={<Spinner />}>
         <KnightStakingChart />
-      </LazyLoad>
+      </LazyLoad> */}
     </Fragment>
   );
 }
